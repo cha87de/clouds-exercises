@@ -1,3 +1,9 @@
+---
+mainfont: Open Sans
+mainfontoptions: BoldFont=Open Sans Bold
+mainfontoptions: ItalicFont=Open Sans Italic
+mainfontoptions: BoldItalicFont=Open Sans Bold Italic
+---
 # Exercise 1: OpenStack
 In this section we will install a wiki application on an OpenStack instance. 
 

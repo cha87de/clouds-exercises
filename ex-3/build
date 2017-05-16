@@ -14,6 +14,6 @@ echo "" >> exercise.md
 cat lesson-loadbalancing.md >> exercise.md 
 echo "" >> exercise.md
 
-pandoc exercise.md -t latex -o exercise.pdf
+pandoc --latex-engine=xelatex exercise.md -t latex -o exercise.pdf
 
 rm exercise.md

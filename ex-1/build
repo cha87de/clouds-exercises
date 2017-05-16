@@ -1,5 +1,5 @@
 #!/bin/bash
 cat README.md > exercise.md 
 echo "\newpage" >> exercise.md
-pandoc exercise.md -t latex -o exercise.pdf
+pandoc --latex-engine=xelatex exercise.md -t latex -o exercise.pdf
 rm exercise.md

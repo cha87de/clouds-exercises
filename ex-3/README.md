@@ -1,3 +1,9 @@
+---
+mainfont: Open Sans
+mainfontoptions: BoldFont=Open Sans Bold
+mainfontoptions: ItalicFont=Open Sans Italic
+mainfontoptions: BoldItalicFont=Open Sans Bold Italic
+---
 # Exercise 3
 
 Welcome to exercise 3. This time we will have the following lessons:
