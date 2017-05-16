@@ -33,6 +33,7 @@ Now that the nginx is installed, we need to configure it:
 
 1. create a new config file /etc/nginx/conf.d/wiki.conf for nginx and open it with your favourite editor (nano, vim, emacs, ...).
 2. Copy and paste the following content into this file (replace the two IP addresses with the ones from your main_server and second_server):
+
 ```
   upstream myproject {
     server YOUR_MAIN_SERVER_IP:80;
@@ -45,6 +46,7 @@ Now that the nginx is installed, we need to configure it:
     }
   }
 ```  
+
 Finally remove the default nginx site (rm /etc/nginx/sites-enabled/default) apply the configuration by restarting the nginx: `sudo service nginx restart`
 Validate that the loadbalancer is working. Go to http://FLOATING_IP_OF_LOADBALANCER:80/ - you should see a apache default page.
 
@@ -54,9 +56,11 @@ to fit your loadbalancer's floating ip.
 The mediawiki is now accessible through http://FLOATING_IP_OF_LOADBALANCER:80/wiki
 
 Now that we have a load balancer and two mediawiki instances running, think about the locality of your data store. Do the following tests:
+
  - Create a new page or edit an existing page. Store your changes
  - Reload the wiki and look for your changes. Are they still there? Reload and check several times if needed.
  - The changes are sometimes there, sometimes are missing. Why is this the case?
+
 The random behaviour experienced is caused by the fact that both wiki instances store their data independently.
 We will have to replace the individual mariadb databases by a commonly used mariadb database on an own virtual machine.
 
@@ -66,6 +70,7 @@ In addition, add a security rule that allows access to the mariadb port (3306).
 You may want to add a floating IP to access the new vm directly, or you can use the load balancer vm and ssh hopping.
 
 Inside the new "database" vm, run the following commands:
+
 ```
 sudo apt-get update
 sudo apt-get upgrade
@@ -78,21 +83,25 @@ For a step-by-step guide, please have a look at exercise 1.
 Per default, mariadb is configured to listen only to connections from the local host. This has to be changed, as multiple
 wikimedia instances will access the database over the network. 
 Use your favourite editor to open file /etc/mysql/my.cnf as sudo and change the bind address:
+
 ```
 bind-address = '<database vm private ip>'
 ```
+
 To apply the change in the configuration file, restart mariadb with `sudo service mysql restart`.
 
 Ensure that it is possible to connect to the database over the network with your new user. From one of the mediawiki VMs, try the following:
 `mysql -u wikiuser -h <database vm private IP> -p`
 
 As the database is currently empty, we have to import the old database:
+
  - dump the database from *one* of the wiki VMs with `mysqldump -u wikiuser -p --databases wikidb > dump.sql`
  - copy the dump.sql file as discussed in one of the earlier lessons, e.g. scp, sftp to the new database vm
  - Import database on the new database vm with `mysql -u wikiuser -p < dump.sql`
 
 Next, we have to tell both mediawiki instances to use the new database vm. For *both* vms, change
 the file `/var/www/html/wiki/LocalSettings.php` to fit the following configuration parameters:
+
 ```
 $wgDBtype = "mysql";
 $wgDBserver = <internal ip of database vm>;

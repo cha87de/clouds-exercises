@@ -1,6 +1,7 @@
 #!/bin/bash
 cat README.md > exercise.md 
 echo "\newpage" >> exercise.md
+echo "" >> exercise.md
 
 cat lesson-openstacknetworking.md >> exercise.md 
 echo "\newpage" >> exercise.md
