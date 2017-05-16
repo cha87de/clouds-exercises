@@ -1,4 +1,4 @@
-# Exercise 3 - Lesson 2: Multi-tier applications in Cloud Computing
+# Lesson 2: Multi-tier applications in Cloud Computing
 
 Before we start splitting the mediawiki application, it is necessary to have a
 clear understanding of multi-tier architectures.

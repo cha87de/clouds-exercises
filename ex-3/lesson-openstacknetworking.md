@@ -1,4 +1,4 @@
-# Exercise 3 - Lesson 1: Extend your knowledge about OpenStack
+# Lesson 1: Extend your knowledge about OpenStack
 
 OpenStack does not only provide virtual machines as shown in exercise 1 and 2. OpenStack has lots of projects, which extend the basic feature set.
 
@@ -25,19 +25,20 @@ For the next steps in our exemplary mediawiki application, let's switch from pla
 ### Create a private network in OpenStack
 In OpenStack, go to "Network -> Networks".
 Click "Create Network". Define the following settings:
- - Network
-   - Network name: "private-net"
-   - Admin State: "Up"
-   - Create Subnet: Checked
- - Subnet 
-   - Subnet Name: "private-subnet"
-   - Network Adress: "192.168.5.0/24"
-   - IP Version: IPv4
-   - Gateway IP: <empty>
-   - Disable Gateway: unchecked
- - Subnet Details
-   - Enable DHCP: Checked
-   - Everything else: <empty> 
+
+ - Network:
+    - Network name: "private-net"
+    - Admin State: "Up"
+    - Create Subnet: Checked
+ - Subnet:
+    - Subnet Name: "private-subnet"
+    - Network Adress: "192.168.5.0/24"
+    - IP Version: IPv4
+    - Gateway IP: <empty>
+    - Disable Gateway: unchecked
+ - Subnet Details:
+    - Enable DHCP: Checked
+    - Everything else: <empty> 
 
 ### Create a private router
 

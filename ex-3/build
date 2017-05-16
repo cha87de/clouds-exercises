@@ -1,0 +1,18 @@
+#!/bin/bash
+cat README.md > exercise.md 
+echo "\newpage" >> exercise.md
+
+cat lesson-openstacknetworking.md >> exercise.md 
+echo "\newpage" >> exercise.md
+echo "" >> exercise.md
+
+cat lesson-multitier.md >> exercise.md 
+echo "\newpage" >> exercise.md
+echo "" >> exercise.md
+
+cat lesson-loadbalancing.md >> exercise.md 
+echo "" >> exercise.md
+
+pandoc exercise.md -t latex -o exercise.pdf
+
+rm exercise.md

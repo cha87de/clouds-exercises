@@ -1,4 +1,4 @@
-# Exercise 3 - Lesson 3: Horizontal Scaling and Load Balancing
+# Lesson 3: Horizontal Scaling and Load Balancing
 
 In this lesson, we create a second vm with mediawiki, another vm with nginx as a loadbalancer,
 and we will extract the database into a separate vm. 
