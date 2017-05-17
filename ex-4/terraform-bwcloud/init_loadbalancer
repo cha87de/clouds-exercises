@@ -1,0 +1,22 @@
+#!/bin/bash
+
+sudo -s
+
+add-apt-repository ppa:nginx/stable
+apt-get update 
+apt-get install -y nginx
+
+echo "upstream myproject {
+    server ${server1_ip}:80;
+    server ${server2_ip}:80;
+  }
+  server {
+    listen 80;
+    location / {
+      proxy_pass http://myproject;
+    }
+  }" > /etc/nginx/conf.d/wiki.conf
+
+rm /etc/nginx/sites-enabled/default
+
+service nginx restart

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+sudo -s
+
+sudo apt-get update
+sudo apt-get install -y mariadb-server
+
+# set bind address to local ip
+sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/mariadb.conf.d/50-server.cnf
+
+systemctl restart mysql
+sleep 5
+
+#  create database, create user, set grants
+echo "CREATE DATABASE wikidb;
+GRANT ALL PRIVILEGES ON wikidb.* TO 'wikiuser'@'%' IDENTIFIED BY 'geheim'; 
+flush privileges; " | sudo mysql -u root
+
+# todo: import dump
+
