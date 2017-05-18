@@ -8,7 +8,6 @@ apt-get install -y nginx
 
 echo "upstream myproject {
     server ${server1_ip}:80;
-    server ${server2_ip}:80;
   }
   server {
     listen 80;

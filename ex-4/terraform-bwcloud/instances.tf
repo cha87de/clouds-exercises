@@ -1,4 +1,4 @@
-# define cloud-init files
+# define cloud-init files and resolve variables from terraform
 data "template_file" "init_mediawiki" {
     template = "${file("init_mediawiki")}"
 	vars {
@@ -13,27 +13,12 @@ data "template_file" "init_loadbalancer" {
     template = "${file("init_loadbalancer")}"
 	vars {
     	server1_ip = "${openstack_compute_instance_v2.mediawiki-1.access_ip_v4}"
-		server2_ip = "${openstack_compute_instance_v2.mediawiki-2.access_ip_v4}"
   	}
 }
 
 # create first mediawiki instance
 resource "openstack_compute_instance_v2" "mediawiki-1" {
 	name = "mediawiki-1"
-	image_name = "Ubuntu Server 14.04 RAW"
-	flavor_name = "m1.small"
-	key_pair = "christopher-uulm"
-	security_groups = ["default"]
-	region	= "Ulm"
-	network {
-		uuid = "${openstack_networking_network_v2.private-net.id}"
-	}
-	user_data = "${data.template_file.init_mediawiki.rendered}"
-}
-
-# create second mediawiki instance
-resource "openstack_compute_instance_v2" "mediawiki-2" {
-	name = "mediawiki-2"
 	image_name = "Ubuntu Server 14.04 RAW"
 	flavor_name = "m1.small"
 	key_pair = "christopher-uulm"
@@ -86,7 +71,7 @@ resource "openstack_compute_floatingip_associate_v2" "fip_loadbalancer" {
   region = "Ulm"
 }
 
-# print floating ip of loadbalancer
+# print floating ip of loadbalancer to user
 output "loadbalancer_floating_ip" {
   value = "${openstack_networking_floatingip_v2.fip_loadbalancer.address}"
 }
