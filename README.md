@@ -1,7 +1,7 @@
 # Exercise Overview
 
 | No | Title | Solution | Summary |
-|---|---|---|
+|---|---|---|---|
 | 1  | [OpenStack basics](ex-1/README.md)				| [Solution pptx](ex-1/solution.pptx) | Learn how to start VMs in OpenStack, install MediaWiki application  |
 | 2  | [Monitoring, stressing, vertical scaling](ex-2/README.md)	| [Solution pdf](ex-2/solution.pdf) | Add InfluxData monitoring stack, stress the mediawiki application, vertically scale the mediawiki vm  |
 | 3  | [Horizontal scaling and load balancing](ex-3/README.md)		| [Solution](ex-3/solution.md) | Extend openstack knowledge (networking), horizontal scaling with nginx as load balancer |
