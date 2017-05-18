@@ -1,0 +1,11 @@
+#!/bin/bash
+sudo -s
+
+curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+echo "deb https://repos.influxdata.com/ubuntu xenial stable" \
+    | sudo tee /etc/apt/sources.list.d/influxdb.list
+sudo apt-get update && sudo apt-get install -y influxdb
+sudo service influxdb start
+
+wget https://dl.influxdata.com/chronograf/releases/chronograf_1.3.0_amd64.deb
+sudo dpkg -i chronograf_1.3.0_amd64.deb

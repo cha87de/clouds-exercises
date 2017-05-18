@@ -1,0 +1,69 @@
+#!/bin/bash
+
+sudo -s
+
+add-apt-repository ppa:nginx/stable
+apt-get update 
+apt-get install -y nginx
+
+echo "upstream myproject {
+    server ${server1_ip}:80;
+    server ${server2_ip}:80;
+    server ${server3_ip}:80;
+  }
+  server {
+    listen 80;
+    location / {
+      proxy_pass http://myproject;
+    }
+  }" > /etc/nginx/conf.d/wiki.conf
+
+rm /etc/nginx/sites-enabled/default
+
+service nginx restart
+
+
+# install monitoring
+curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+echo "deb https://repos.influxdata.com/ubuntu xenial stable" \
+    | sudo tee /etc/apt/sources.list.d/influxdb.list
+sudo apt-get update && sudo apt-get install -y telegraf
+## configure telegraf
+echo "[global_tags]
+[agent]
+  interval = \"10s\"
+  round_interval = true
+  metric_batch_size = 1000
+  metric_buffer_limit = 10000
+  collection_jitter = \"0s\"
+  flush_interval = \"10s\"
+  flush_jitter = \"0s\"
+  precision = \"\"
+  debug = false
+  quiet = false
+  logfile = \"\"
+  hostname = \"\"
+  omit_hostname = false
+[[outputs.influxdb]]
+  urls = [\"http://${monitoring-ip}:8086\"] # required
+  database = \"telegraf\" # required
+  retention_policy = \"\"
+  write_consistency = \"any\"
+  timeout = \"5s\"
+[[inputs.cpu]]
+  percpu = true
+  totalcpu = true
+  collect_cpu_time = false
+[[inputs.disk]]
+  ignore_fs = [\"tmpfs\", \"devtmpfs\"]
+[[inputs.diskio]]
+[[inputs.kernel]]
+[[inputs.mem]]
+[[inputs.processes]]
+[[inputs.swap]]
+[[inputs.system]]
+[[inputs.nginx]]
+  urls = [\"http://localhost/status\"]
+" > /etc/telegraf/telegraf.conf
+
+service telegraf restart
