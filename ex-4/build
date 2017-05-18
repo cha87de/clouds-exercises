@@ -1,0 +1,20 @@
+#!/bin/bash
+cat README.md > exercise.md 
+echo "\newpage" >> exercise.md
+echo "" >> exercise.md
+
+cat lesson-conceptcloud.md >> exercise.md 
+echo "\newpage" >> exercise.md
+echo "" >> exercise.md
+
+cat lesson-terraform.md >> exercise.md 
+echo "\newpage" >> exercise.md
+echo "" >> exercise.md
+
+pandoc --latex-engine=xelatex exercise.md -t latex -o exercise.pdf
+rm exercise.md
+
+pandoc --latex-engine=xelatex solution.md -t latex -o solution.pdf
+
+zip -r terraform-bwcloud.zip terraform-bwcloud
+zip -r terraform-bwcloud-solution.zip terraform-bwcloud-solution
