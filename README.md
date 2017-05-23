@@ -11,3 +11,8 @@
 | 7  | [Kubernetes Part 2 ?](ex-5/README.md)				| [Solution](ex-7/solution.md) | ... |
 | 8  | [Rancher and Rancher OS, CoreOS ?](ex-5/README.md)		| [Solution](ex-8/solution.md) | ... |
 | 9  | [PaaS: OpenShift Origin](ex-5/README.md)				| [Solution](ex-9/solution.md) | ... |
+
+# Collecting ideas for content
+
+ - CAP Theorem, High Availability, Reliability
+ - 
