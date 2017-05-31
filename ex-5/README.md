@@ -9,7 +9,7 @@ mainfontoptions: BoldItalicFont=Open Sans Bold Italic
 Welcome to exercise 5. This time we will have the following lessons:
 
  1. [Concept of Containers](lesson-containers.md)
- 2. [Mediawiki with Docker](lesson-docker.md)
+ 2. [Mediawiki with Docker](lesson-mediawiki_docker.md)
 
 ## Lessons learned
 
