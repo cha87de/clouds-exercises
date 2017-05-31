@@ -21,7 +21,7 @@ resource "openstack_compute_instance_v2" "mediawiki-1" {
 	name = "mediawiki-1"
 	image_name = "Ubuntu Server 14.04 RAW"
 	flavor_name = "m1.small"
-	key_pair = "christopher-uulm"
+	key_pair = "YOUR_KEYPAIR_NAME"
 	security_groups = ["default"]
 	region	= "Ulm"
 	network {
@@ -35,7 +35,7 @@ resource "openstack_compute_instance_v2" "database" {
 	name = "database"
 	image_name = "Ubuntu Server 16.04 RAW"
 	flavor_name = "m1.nano"
-	key_pair = "christopher-uulm"
+	key_pair = "YOUR_KEYPAIR_NAME"
 	security_groups = ["default"]
 	region	= "Ulm"
 	network {
@@ -49,7 +49,7 @@ resource "openstack_compute_instance_v2" "loadbalancer" {
 	name = "loadbalancer"
 	image_name = "Ubuntu Server 16.04 RAW"
 	flavor_name = "m1.nano"
-	key_pair = "christopher-uulm"
+	key_pair = "YOUR_KEYPAIR_NAME"
 	security_groups = ["default"]
 	region	= "Ulm"
 	network {

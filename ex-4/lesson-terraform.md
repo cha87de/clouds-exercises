@@ -16,14 +16,15 @@ Download [1] and install [2] the newest version of Terraform on your workstation
 ## Task: Deploy Mediawiki with Terraform
 
 Download and extract the `terraform-bwcloud.zip` file from Moodle to your workstation, where you installed terraform.
-The extracted folder will be named `wirking directory` in the following. 
+The extracted folder will be named `working directory` in the following. 
 It contains several terraform files and bash scripts, which are necessary to deploy mediawiki on bwcloud.
 
 Before you can deploy the mediawiki with terraform, please change your bwcloud username and tenant. 
-In the working directory, edit the file `provider.tf` and change `xyz12` to your user id. 
+In the working directory, edit the file `provider.tf` and change `xyz12` to your user id. Look up the
+name of your ssh key pair in bwcloud (via Access & Security, Key Pairs), edit the file `instances.tf`
+and replace the existing name in the field `key_pair` with your ssh key name. 
 If you are comfortable with writing your password in the password field, you can start right away. 
-
-But there's a more secure way (tested with linux bash): 
+But there's a more secure way for your password (tested with linux bash): 
 
  - open a new terminal
  - navigate to the working directory
@@ -54,6 +55,9 @@ Extend the setup by:
  2. Add a monitoring vm
  3. Add Telegraf to all your vms
  
+With your scaled out deployment you can easily run the stress benchmarks again,
+to see how the system can handle requests with 3, 4, or even 5 mediawiki vms.
+
 [1] https://www.terraform.io/docs/providers/openstack/index.html
 
 ## Questions: Terraform and cloud-init
