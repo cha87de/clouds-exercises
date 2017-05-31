@@ -12,12 +12,8 @@ Scan the official project navigator page at [1].
 
 1. How is the project called, which provides virtual machines in OpenStack?
 
-The compute service is responsible for virtual machines and is called nova. It cannot run alone: Keystone (Identity Service) and Glance (Image Service) are required at least.
-
 2. What are the main differences between Object Store (Swift) and Block Storage (Cinder)?
 
-Object Store is accessible via REST and allows applications to store arbitrary BLOBs. 
-Cinder is accessible via iSCSI and provides volumes which can be attached to virtual machines as virtual disks.
 
 ## Research: OpenStack Networking
 OpenStack provides besides virtual machines virtual networks. The virtual network can be bridged to a public network or can be a private one.
