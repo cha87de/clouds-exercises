@@ -5,7 +5,7 @@ if ( !defined( "MEDIAWIKI" ) ) {
 $wgSitename = "Clouds Lecture Wiki";
 $wgMetaNamespace = "Clouds_Lecture_Wiki";
 $wgScriptPath = "/wiki";
-$wgServer = "http://loadbalancer/";
+$wgServer = "http://$YOUR_FLOATING_IP/";
 $wgResourceBasePath = $wgScriptPath;
 $wgEnableEmail = false;
 $wgEnableUserEmail = true; # UPO

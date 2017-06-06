@@ -15,15 +15,18 @@ installed on the operating system but are deployed inside containers.
 ## Research: What are containers and why to use them?
 
 Before we start to work with containers, we need to understand why containers exist, and what
-their benefits. This blog post [1] gives a nice introduction. The most popular container software
+their benefits are. This blog post [1] gives a nice introduction. The most popular container software
 is Docker. On the Docker page, they compare containers and virtual machines and how they fit together [2].
 
 In the practical part of this exercise we will use Docker [3] and LXC [4] as container software. Become familiar
 with both tools, to understand their similarities and differences.
 
 [1] https://www.digitalocean.com/community/tutorials/the-docker-ecosystem-an-overview-of-containerization
+
 [2] https://www.docker.com/what-container
+
 [3] https://www.docker.com/
+
 [4] https://linuxcontainers.org/
 
 ## Question: Containers, LXC and Docker
@@ -32,12 +35,11 @@ with both tools, to understand their similarities and differences.
 
  - What are pros/cons of containers compared to virtual machines?
 
-
 ## Task: Create Containers with LXC
 
 Clean up your bwcloud workspace: remove unnecessary virtual machines, release floating IPs, remove unused snapshots.
 
-Create a new virtual machine "lxc" in bwcloud with flavor m1.small from Ubuntu 16.04, and log into this VM via SSH. 
+Create a new virtual machine named "lxc" in bwcloud with flavor m1.small from Ubuntu 16.04, and log into this VM via SSH. 
 Inside the VM, let's install software for LXC. We will follow the official _lxc getting started guide_ [1]
 
 ```
@@ -49,13 +51,14 @@ sudo echo "ubuntu veth lxcbr0 10" >> /etc/lxc/lxc-usernet
 mkdir -p ~/.config/lxc
 cp /etc/lxc/default.conf ~/.config/lxc
 echo "lxc.id_map = u 0 $(cat /etc/subuid | grep ubuntu | cut -d ':' -f 2,3 | tr ':' ' ')
-lxc.id_map = g 0 $(cat /etc/subgid | grep ubuntu | cut -d ':' -f 2,3 | tr ':' ' ')" >> ~/.config/lxc/default.conf
+lxc.id_map = g 0 $(cat /etc/subgid | grep ubuntu | cut -d ':' -f 2,3 | tr ':' ' ')" \
+    >> ~/.config/lxc/default.conf
 
 # reboot the vm
 sudo reboot
 ```
 
-Lets create and start a LXC container according to [1]:
+Lets create and start an LXC container according to [1]:
 
 ```
 # create the container
@@ -120,20 +123,21 @@ As you can see, lxc containers can be cloned very quickly, which allows a fast a
 The lxc commands can be called by a script to automate the deployment and management of lxc containers.
 
 [1] https://linuxcontainers.org/lxc/getting-started/
+
 [2] https://www.jamescoyle.net/cheat-sheets/2540-lxc-2-x-lxd-cheat-sheet
 
 ## Question: LXC Containers
 
-- Where are more processes running: on the vm operating system or inside the container?
+- Where are more processes running: on the vm operating system or inside the container? And why?
 
 - How does the networking look like? Why is it a good idea to have a private IP for each containers?
 
-- Which resources can be limited via `lxc config set [container] limits.*` command?
+- What resources can be limited via `lxc config set [container] limits.*` command?
 
 
 ## Task: Create Containers with Docker
 
-Create a new virtual machine "docker" in bwcloud with flavor m1.small from Ubuntu 16.04, and log into this VM via SSH. 
+Create a new virtual machine named "docker" in bwcloud with flavor m1.small from Ubuntu 16.04, and log into this VM via SSH. 
 Inside the VM, let's install software for Docker [1].
 
 ```
@@ -149,14 +153,17 @@ sudo add-apt-repository \
    $(lsb_release -cs) \
    stable"
 sudo apt-get update
-sudo apt-get install -y docker-ce       
-sudo usermod -aG docker ubuntu ; newgrp -
+sudo apt-get install -y docker-ce
+
+sudo usermod -aG docker ubuntu
 sudo systemctl enable docker
 sudo systemctl start docker
 ```
 
 You can validate that docker is installed by checking the version `docker --version` (should be something like 17.03.1-ce).
+_Before we continue, log out and log in again via ssh._
 Next, let's create a container and explore the docker commands ...
+
 
 ```
 # create and start a container
@@ -221,19 +228,24 @@ docker run -d --name web1 myreg/web
 ```
 
 Docker Hub [2] is a central registry for Docker images. Tons of per-packaged software is available
-already, like database servers, web servers, ...
+already, like database servers, web servers, ... 
 
 [1] https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository
 
 [2] https://hub.docker.com/
 
-## Question: Docker Hub
+## Question: Docker and Docker Hub
+
+Now that you are familiar with the basics of Docker:
+
+- What are the differences between a Dockerfile and a Docker image? Can you imagine pros/cons?
+
+- How does a typical workflow for deploying a new application component look like?
 
 Have a look at the Docker Hub [1]. 
 
 - Do you think it was useful to create an image for Apache by ourselves?
 
-- How are images in Docker Hub created?
-
+- How are images in Docker Hub created and maintained?
 
 [1] https://hub.docker.com/

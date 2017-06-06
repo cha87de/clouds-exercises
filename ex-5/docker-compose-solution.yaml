@@ -1,0 +1,34 @@
+version: '2'
+services:
+    web1:
+        build: Mediawiki
+        image: clouds/mediawiki
+    web2:
+        build: Mediawiki
+        image: clouds/mediawiki        
+    database:
+        build: Database
+        image: clouds/database
+    loadbalancer:
+        build: Loadbalancer
+        image: clouds/loadbalancer
+        ports:
+         - 80:80
+    influxdb:
+        image: influxdb
+    chronograf:
+        image: chronograf
+        ports:
+         - 8888:8888
+    telegraf:
+        image: telegraf
+        volumes:
+         - /var/run/docker.sock:/var/run/docker.sock:ro
+         - /sys:/rootfs/sys:ro 
+         - /proc:/rootfs/proc:ro 
+         - /etc:/rootfs/etc:ro
+         - ./Monitoring/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+        environment:
+         - HOST_PROC=/rootfs/proc
+         - HOST_SYS=/rootfs/sys
+         - HOST_ETC=/rootfs/etc
