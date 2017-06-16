@@ -1,0 +1,54 @@
+#!/bin/bash
+
+# install docker engine
+sudo apt-get install \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common \
+    wget
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
+    | sudo apt-key add -
+sudo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+sudo apt-get update
+sudo apt-get install -y docker-ce
+
+sudo usermod -aG docker ubuntu
+
+sudo systemctl enable docker
+sudo systemctl restart docker
+
+# install docker compose
+sudo -s
+curl -L https://github.com/docker/compose/releases/download/1.13.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+
+# start docker registry
+## install certbot to get certificate
+sudo add-apt-repository -y ppa:certbot/certbot
+sudo apt-get update
+sudo apt-get install -y certbot 
+
+## lookup your public hostname
+floatingIP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
+publicHostname=$(nslookup $floatingIP | grep "in-addr.arpa" | cut -d'=' -f2 | tr -d ' ''')
+
+## get certificate
+sudo certbot certonly --standalone -d $publicHostname --register-unsafely-without-email --agree-tos --preferred-challenges http
+sudo mkdir /opt/certs
+folder=$(ls /etc/letsencrypt/live/)
+sudo cp /etc/letsencrypt/live/$folder/fullchain.pem /opt/certs/
+sudo cp /etc/letsencrypt/live/$folder/privkey.pem /opt/certs/
+
+## start registry as container 
+docker run -d -p 5000:5000 --restart=always --name registry \
+  -v /opt/certs:/certs \
+  -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/fullchain.pem \
+  -e REGISTRY_HTTP_TLS_KEY=/certs/privkey.pem \
+  registry:2
+
+# install rancher cli
+#wget -O rancher.tar.gz https://github.com/rancher/cli/releases/download/v0.6.1/rancher-linux-amd64-v0.6.1.tar.gz
