@@ -181,6 +181,16 @@ ID  IMAGE                ...  STATUS         PORTS                    NAMES
 
 ## Mediawiki with Docker Compose
 
+To install docker compose, download the binary and make it executable:
+
+```
+sudo -s
+curl -L \
+ https://github.com/docker/compose/releases/download/1.13.0/docker-compose-`uname -s`-`uname -m`\
+ > /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+```
+
 The working `docker-compose.yaml`:
 
 ```
