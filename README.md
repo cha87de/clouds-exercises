@@ -7,7 +7,7 @@
 | 3  | [Horizontal scaling and load balancing](ex-3/README.md)		| [Solution](ex-3/solution.md) | Extend openstack knowledge (networking), horizontal scaling with nginx as load balancer |
 | 4  | [Automating Cloud Deployments](ex-4/README.md)			| [Solution](ex-4/solution.md) | Learn how to deploy multi-tier applications with Terraform and cloud-init |
 | 5  | [Containers](ex-5/README.md)					| [Solution](ex-5/solution.md) | Learn about Containers (LXC, Docker) and how to deploy applications with Docker |
-| 6  | [Container orchestration with Kubernetes](ex-6/README.md)	| [Solution](ex-6/solution.md) | ... |
+| 6  | [Container Orchestration](ex-6/README.md)	| [Solution](ex-6/solution.md) | Learn about container orchestration with Docker Swarm and Rancher |
 | 7  | [Kubernetes Part 2 ?](ex-7/README.md)				| [Solution](ex-7/solution.md) | ... |
 | 8  | [Rancher and Rancher OS, CoreOS ?](ex-8/README.md)		| [Solution](ex-8/solution.md) | ... |
 | 9  | [PaaS: OpenShift Origin](ex-9/README.md)				| [Solution](ex-9/solution.md) | ... |
