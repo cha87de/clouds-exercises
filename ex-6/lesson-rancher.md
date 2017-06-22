@@ -28,7 +28,7 @@ In bwcloud create a new keypair via `Access&Security > Key Pairs > Create Key Pa
 Next, use the terraform scripts in `terraform-rancher` to start a new virtual machine with docker and a docker
 registry. When the VM is up, place your Keypair rancher.pem file inside the vm at /opt/keypair/.
 
-Now start a Rancher service:
+Now start a Rancher service (it takes several seconds until rancher is accessible):
 
 ```
 docker run -d --restart=unless-stopped -p 8080:8080 --name rancher \
@@ -36,6 +36,8 @@ docker run -d --restart=unless-stopped -p 8080:8080 --name rancher \
   rancher/server:stable
 ```
 
+Next, we will add hosts (virtual machines with a Rancher agent) to Rancher, while Rancher will create the 
+virtual resources.
 Open the web dashboard of your Rancher server http://PUBLIC_IP:8080/ and run the following instructions:
 
 * Admin > Machine Drivers
@@ -71,7 +73,7 @@ Open the web dashboard of your Rancher server http://PUBLIC_IP:8080/ and run the
 Starting the rancher hosts will take some time. You can follow the process: the virtual machines will be created, Docker will be installed, Rancher agents will be installed, and several predefined containers like healthchecker, or scheduler will be started. When the hosts are up, you can browse through the utilisation metrics and the deployed containers in the web dashboard. When selecting single containers, you get 
 get statistics about this container only, its even possible to get execution shells into containers from the dashboard.
 
-Finally install the Rancher CLI tool inside the virtual machine:
+Finally install the Rancher CLI tool inside the rancher VM:
 
 ```
 wget -O rancher.tar.gz \

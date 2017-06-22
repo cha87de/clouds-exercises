@@ -35,16 +35,17 @@ to be assigned to a Swarm cluster. Swarm automates from Containers on upwards.
 
 *Where in our Cloud Stack do you place Rancher?*
 
-Rancher offers the full cloud stack: from allocating resources to container placement and application deployment.
+Rancher offers the full cloud stack: from allocating resources to container placement and triggers application deployment via Docker.
 
 | Cloud Stack | Example | Deployment Tool | 
 | --- | --- | --- |
-| **Application Component** | Mediawiki | Rancher |
+| **Application Component** | Mediawiki | Dockerfile/Bash |
 | **Containers** | Docker | Rancher |
 | **Virtual Resource** | Instance m1.small | Rancher |
 | **Cloud Platform** | OpenStack | - |
 
-Surprisingly, rancher does not automate the resource allocation depending on demands (e.g. http requests per second, or cpu load).
+Yet, Rancher does not automate the resource allocation depending on demands (e.g. http requests per second, or cpu load). 
+This feature has has to be added separately.
 
 # Solution for practical part
 

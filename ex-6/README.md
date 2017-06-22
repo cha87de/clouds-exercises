@@ -4,7 +4,7 @@ mainfontoptions: BoldFont=Open Sans Bold
 mainfontoptions: ItalicFont=Open Sans Italic
 mainfontoptions: BoldItalicFont=Open Sans Bold Italic
 ---
-# Exercise 6: Container Orchestration
+# Exercise 6: Container Orchestration 1
 
 Welcome to exercise 6. This time we will have the following lessons:
 
