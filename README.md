@@ -8,7 +8,7 @@
 | 4  | [Automating Cloud Deployments](ex-4/README.md)			| [Solution](ex-4/solution.md)		| Learn how to deploy multi-tier applications with Terraform and cloud-init |
 | 5  | [Containers](ex-5/README.md)					| [Solution](ex-5/solution.md)		| Learn about Containers (LXC, Docker) and how to deploy applications with Docker |
 | 6  | [Container Orchestration 1](ex-6/README.md)			| [Solution](ex-6/solution.md)		| Learn about container orchestration with Docker Swarm and Rancher |
-| 7  | [Container Orchestration 2](ex-7/README.md)			| [Solution](ex-7/solution.md)		| Learn how the most powerful container orchestrator "Kubernetes" works |
+| 7  | [Kubernetes; Reliability & Availability](ex-7/README.md)			| [Solution](ex-7/solution.md)		| Containers with Kubernetes, Reliability & Availability of database systems |
 | 8  | [?](ex-8/README.md)						| [Solution](ex-8/solution.md)		| ... |
 | 9  | [?](ex-9/README.md)						| [Solution](ex-9/solution.md)		| ... |
 
