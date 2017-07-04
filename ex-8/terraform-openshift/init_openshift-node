@@ -1,19 +1,15 @@
 #!/bin/bash
+set -x
 
-yum install -y vim wget
+# install required software
+yum install -y wget vim git net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct  NetworkManager
+yum update -y
+systemctl enable NetworkManager
+systemctl start NetworkManager
 
 # install docker
-(
-    echo "install docker"
-    yum install -y yum-utils device-mapper-persistent-data lvm2
-    yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-    yum makecache fast
-    yum install -y docker-ce
-    mkdir /etc/docker
-    echo "{
-    \"storage-driver\": \"devicemapper\"
-    }" > /etc/docker/daemon.json
-    sudo usermod -aG docker centos
-    systemctl enable docker
-    systemctl restart docker
-)
+yum install -y docker
+sed -i '/OPTIONS=.*/c\OPTIONS="--selinux-enabled --insecure-registry 172.30.0.0/16"' \
+/etc/sysconfig/docker
+systemctl enable docker
+systemctl restart docker

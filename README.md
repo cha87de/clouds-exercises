@@ -1,4 +1,15 @@
-# Exercise Overview
+# Cloud Computing Exercise
+
+In this practical hands-on you will learn how to work with Cloud computing from Infrastructure as a Service towards Platform as a Service.
+
+## Prerequisits
+
+ * You should be familiar with Linux and Bash, and have a basic understanding of networking with Linux
+ * The course assumes that you are a student with access to the OpenStack bwCloud [1]. This is the case for students at universities in Baden-Württemberg, Germany.
+
+[1] http://www.bw-cloud.org
+
+## Exercises Overview
 
 | No | Title | Solution | Summary |
 |---|---|---|---|

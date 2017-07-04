@@ -8,10 +8,15 @@ OpenShift uses Kubernetes to provide PaaS, similar to Heroku.
 ## Task: Install OpenShift
 
 The terraform-openshift.zip provides terraform scripts, which installs OpenShift on bwCloud automatically. 
-Download and unzip the archive, change the provider.tf to fit your username and tenant, change the key name in instances.tf.
+Download and unzip the archive, change the provider.tf to fit your *username and tenant*, change the *key name* in instances.tf.
+The installer needs ssh access between the VMs. Place your *bwCloud private key* on the file `init_openshift_master`.
 
-Then use `terraform apply` to install your own OpenShift instance. Terraform deploys three virtual machines on bwCloud: an openshift-master and two openshift-nodes. OpenShift will be installed via Cloud-init asynchronously, this will take some time!
-Check the output of cloud-init to validate that the installation was successful, then access the OpenShift dashboard at http://PUBLIC_IP_Master:8443/.
+Then use `terraform apply` to install your own OpenShift instance. Terraform deploys four virtual machines on bwCloud: an openshift-master and three openshift-nodes. OpenShift will be installed via Cloud-init asynchronously, this will take some time! Cloud-init will trigger the ansible based installation
+of OpenShift [1].
+
+Check the output of cloud-init to validate that the installation was successful, then access the OpenShift dashboard at http://PUBLIC_IP_Master:8443/. Besides this graphical web UI, OpenShift offers the CLI tool `oc`, which is installed already in the openshift-master vm.
+
+[1] https://docs.openshift.org/latest/install_config/install/advanced_install.html
 
 ## Task: Install test application on OpenShift
 
@@ -27,9 +32,3 @@ While OpenShift is downloading the Docker image and creating the Docker containe
 In the overview dashboard, the ghost application can be scaled up and down by pressing the two arrows next to the circle with the number of pods running for the deployment. OpenShift has also automatic health checks and even autoscaling.
 
 In the menu bar, go to Applications > Deployments, then select the ghost deployment. In the Actions menu, edit the health checks and enable an autoscaler.
-
-## Question: Maintaining OpenShift Deployments
-
-* What types of health checks does OpenShift offer?
-
-* According to which metrics does the autoscaler work?
