@@ -1,12 +1,12 @@
 #!/bin/bash
 
-yum install -y bind-utils vim wget screen
+yum install -y bind-utils vim wget
 
 ## lookup public hostname
-publicIP=$(line=($(ip addr show eth0 | grep "inet ")); echo \$\{line[1]\} | cut -d'/' -f1)
+publicIP=$(line=($(ip addr show eth0 | grep "inet ")); echo $${line[1]} | cut -d'/' -f1)
 hostname=$(nslookup $publicIP | grep "in-addr.arpa" | cut -d'=' -f2 | tr -d ' '''  | sed s'/.$//')
 echo "found public hostname $hostname"
-publicmaster="https://\$\{hostname\}:8443"
+publicmaster="https://$${hostname}:8443"
 
 # install docker
 (
@@ -37,7 +37,8 @@ publicmaster="https://\$\{hostname\}:8443"
 
 # configure openshift software
 (
-    echo "configure openshift software"
+    set -x
+    echo "configure openshift software with public-master $publicmaster"
     cd /opt/openshift-server
     ./openshift start --listen='https://0.0.0.0:8443'  --public-master=$publicmaster --write-config=/opt/openshift-server/openshift.local.config/master/
     touch /etc/profile.d/openshift
@@ -47,24 +48,48 @@ publicmaster="https://\$\{hostname\}:8443"
 
 # start openshift in screen
 (
-    echo "start openshift in screen"
+    set -x
+    echo "start openshift in screen with public-master $publicmaster"
     cd /opt/openshift-server
-    screen -S openshift -d -m ./openshift start --listen='https://0.0.0.0:8443'  --public-master=$publicmaster
+    nohup ./openshift start --listen='https://0.0.0.0:8443'  --public-master=$publicmaster >> /var/log/openshift.log 2>&1 &
 )
+
+# wait for openshift service
+(
+    set -x
+    echo "waiting for openshift api ..."
+    curl --insecure $publicmaster
+    status=$?
+    while (( $status > 0 )); do
+        echo "openshift api not available."
+        sleep 1
+        curl --insecure $publicmaster
+        status=$?
+    done
+    echo "openshift api is now available! Let's go on..."
+)
+
+sleep 5
 
 # configure openshift instance
 (
+    set -x
     echo "configure openshift instance"
     chmod 655 /opt/openshift-server/openshift.local.config/master/admin.kubeconfig
+    export KUBECONFIG=/opt/openshift-server/openshift.local.config/master/admin.kubeconfig
     PATH=/opt/openshift-server:$PATH
 
-    oc adm policy add-scc-to-user hostnetwork\
-        system:serviceaccount:default:router \
-        --config=/opt/openshift-server/openshift.local.config/master/admin.kubeconfig
+    oc login -u system:admin -n default
+    status=$?
+    while (( $status > 0 )); do
+        echo "openshift login not working yet."
+        sleep 1
+        oc login -u system:admin -n default
+        status=$?
+    done
+    echo "openshift login available. Let's go on..."
 
-    oadm policy add-cluster-role-to-user \
-        cluster-reader system:serviceaccount:default:router\
-        --config=/opt/openshift-server/openshift.local.config/master/admin.kubeconfig
-
-    oc adm router router1 --replicas=1 --service-account=router --config=/opt/openshift-server/openshift.local.config/master/admin.kubeconfig
+    oc adm policy add-scc-to-user hostnetwork system:serviceaccount:default:router
+    oadm policy add-cluster-role-to-user cluster-reader system:serviceaccount:default:router
+    oc adm router defaultrouter --replicas=1 --service-account=router
 )
