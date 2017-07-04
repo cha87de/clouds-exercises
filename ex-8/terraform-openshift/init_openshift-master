@@ -3,7 +3,8 @@
 yum install -y bind-utils vim wget
 
 ## lookup public hostname
-publicIP=$(line=($(ip addr show eth0 | grep "inet ")); echo $${line[1]} | cut -d'/' -f1)
+#publicIP=$(line=($(ip addr show eth0 | grep "inet ")); echo $${line[1]} | cut -d'/' -f1)
+publicIP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 hostname=$(nslookup $publicIP | grep "in-addr.arpa" | cut -d'=' -f2 | tr -d ' '''  | sed s'/.$//')
 echo "found public hostname $hostname"
 publicmaster="https://$${hostname}:8443"
