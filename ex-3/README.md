@@ -1,10 +1,8 @@
 ---
-mainfont: Open Sans
-mainfontoptions: BoldFont=Open Sans Bold
-mainfontoptions: ItalicFont=Open Sans Italic
-mainfontoptions: BoldItalicFont=Open Sans Bold Italic
+date: 2017-07-06
+subtitle: "Exercise 3: Scaling and Load Balancing"
 ---
-# Exercise 3
+# Exercise 3: Scaling and Load Balancing
 
 Welcome to exercise 3. This time we will have the following lessons:
 

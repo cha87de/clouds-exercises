@@ -1,19 +1,11 @@
 #!/bin/bash
-cat README.md > exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
+source ../build
 
-cat lesson-containers.md >> exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
+EXERCISE_FILES="lesson-containers.md lesson-mediawiki_docker.md"
+EXTRA_ARTIFACTS="dockerfiles.zip" # excluding: exercise.pdf, solution.pdf
 
-cat lesson-mediawiki_docker.md >> exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
+buildExercise
+buildSolution
 
-pandoc --latex-engine=xelatex exercise.md -t latex -o exercise.pdf
-rm exercise.md
-
-pandoc --latex-engine=xelatex solution.md -t latex -o solution.pdf
-
+# build zip files
 zip -r dockerfiles.zip dockerfiles

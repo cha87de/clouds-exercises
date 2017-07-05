@@ -1,0 +1,51 @@
+#!/bin/bash
+
+function buildSolution(){
+    cat ../template/default.properties > solution.md.1
+    cp solution.md solution.md.2
+    sed -i "1s/.*/$var/" solution.md.2
+    cat solution.md.2 >> solution.md.1
+    pandoc --latex-engine=xelatex  solution.md.1 -t latex -o solution.pdf --template ../template/eisvogel.latex
+    rm solution.md.1 solution.md.2
+}
+
+function buildExercise(){
+    cat README.md > exercise.md 
+    echo "\newpage" >> exercise.md
+    echo "" >> exercise.md
+
+    sed -i "1s/.*/$var/" exercise.md
+    mv exercise.md exercise.md.1
+    cat ../template/default.properties >> exercise.md 
+    cat exercise.md.1 >> exercise.md 
+    rm exercise.md.1
+
+    for file in $EXERCISE_FILES ; do
+        cat $file >> exercise.md 
+        echo "\newpage" >> exercise.md
+        echo "" >> exercise.md
+    done
+
+    pandoc --latex-engine=xelatex exercise.md -t latex -o exercise.pdf --template ../template/eisvogel.latex
+    rm exercise.md
+}
+
+function buildAll(){
+
+    for ex in $(ls | grep ex-); do
+        (
+            echo "build exercise $ex ..."
+            cd $ex
+            source ./build
+            echo "EXTRA_ARTIFACTS: $EXTRA_ARTIFACTS"
+        )
+    done
+
+}
+
+if [[ ${BASH_SOURCE[0]} != $0 ]]; then
+  export -f buildSolution buildExercise
+else
+  buildAll "${@}"
+  exit $?
+fi

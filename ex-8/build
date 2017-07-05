@@ -1,20 +1,12 @@
 #!/bin/bash
-cat README.md > exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
 
-cat lesson-concepts.md >> exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
+source ../build
 
+EXERCISE_FILES="lesson-concepts.md lesson-openshift.md"
+EXTRA_ARTIFACTS="terraform-openshift.zip" # excluding: exercise.pdf, solution.pdf
 
-cat lesson-openshift.md >> exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
+buildExercise
+buildSolution
 
-pandoc --latex-engine=xelatex exercise.md -t latex -o exercise.pdf
-rm exercise.md
-
-pandoc --latex-engine=xelatex solution.md -t latex -o solution.pdf
-
+# build zip files
 zip -r terraform-openshift.zip terraform-openshift

@@ -1,5 +1,8 @@
 #!/bin/bash
-cat README.md > exercise.md 
-echo "\newpage" >> exercise.md
-pandoc --latex-engine=xelatex exercise.md -t latex -o exercise.pdf
-rm exercise.md
+source ../build
+
+EXERCISE_FILES=""
+EXTRA_ARTIFACTS="" # excluding: exercise.pdf, solution.pdf
+
+buildExercise
+buildSolution

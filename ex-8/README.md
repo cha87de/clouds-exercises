@@ -1,12 +1,10 @@
 ---
-mainfont: Open Sans
-mainfontoptions: BoldFont=Open Sans Bold
-mainfontoptions: ItalicFont=Open Sans Italic
-mainfontoptions: BoldItalicFont=Open Sans Bold Italic
+date: 2017-07-06
+subtitle: "Exercise 8: Platform as a Service with Heroku and OpenShift"
 ---
-# Exercise 7: Platform as a Service with Heroku and OpenShift
+# Exercise 8: Platform as a Service with Heroku and OpenShift
 
-Welcome to exercise 7. This time we will have the following lessons:
+Welcome to exercise 8. This time we will have the following lessons:
 
 1. [Concepts of Platform as a Service](lesson-concepts.md)
 1. [PaaS with OpenShift](lesson-openshift.md)

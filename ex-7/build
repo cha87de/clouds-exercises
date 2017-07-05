@@ -1,18 +1,8 @@
 #!/bin/bash
-cat README.md > exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
+source ../build
 
-cat lesson-kubernetes.md >> exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
+EXERCISE_FILES="lesson-kubernetes.md lesson-reliability_availability.md"
+EXTRA_ARTIFACTS="" # excluding: exercise.pdf, solution.pdf
 
-
-cat lesson-reliability_availability.md >> exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
-
-pandoc --latex-engine=xelatex exercise.md -t latex -o exercise.pdf
-rm exercise.md
-
-pandoc --latex-engine=xelatex solution.md -t latex -o solution.pdf
+buildExercise
+buildSolution

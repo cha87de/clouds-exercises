@@ -1,20 +1,12 @@
 #!/bin/bash
-cat README.md > exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
+source ../build
 
-cat lesson-swarm.md >> exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
+EXERCISE_FILES="lesson-swarm.md lesson-rancher.md"
+EXTRA_ARTIFACTS="terraform-dockernodes.zip terraform-rancher.zip" # excluding: exercise.pdf, solution.pdf
 
-cat lesson-rancher.md >> exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
+buildExercise
+buildSolution
 
-pandoc --latex-engine=xelatex exercise.md -t latex -o exercise.pdf
-rm exercise.md
-
-pandoc --latex-engine=xelatex solution.md -t latex -o solution.pdf
-
+# build zip files
 zip -r terraform-dockernodes.zip terraform-dockernodes
 zip -r terraform-rancher.zip terraform-rancher

@@ -1,8 +1,6 @@
 ---
-mainfont: Open Sans
-mainfontoptions: BoldFont=Open Sans Bold
-mainfontoptions: ItalicFont=Open Sans Italic
-mainfontoptions: BoldItalicFont=Open Sans Bold Italic
+date: 2017-07-13
+subtitle: "Solution for Exercise 3"
 ---
 # Answers to questions
 

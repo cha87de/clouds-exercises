@@ -1,8 +1,6 @@
 ---
-mainfont: Open Sans
-mainfontoptions: BoldFont=Open Sans Bold
-mainfontoptions: ItalicFont=Open Sans Italic
-mainfontoptions: BoldItalicFont=Open Sans Bold Italic
+date: 2017-07-06
+subtitle: "Exercise 4: Automating Cloud Deployments"
 ---
 # Exercise 4: Automating Cloud Deployments
 

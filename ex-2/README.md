@@ -1,8 +1,6 @@
 ---
-mainfont: Open Sans
-mainfontoptions: BoldFont=Open Sans Bold
-mainfontoptions: ItalicFont=Open Sans Italic
-mainfontoptions: BoldItalicFont=Open Sans Bold Italic
+date: 2017-07-06
+subtitle: "Exercise 2: Monitoring and Stressing"
 ---
 # Exercise 2: Monitoring and Stressing
 In this unit, we will set up a monitoring infrastructure for our mediawiki installation. We will then establish a script-based mechanism that stresses the platform; and identify the differences between having different sized virtual machines. This session assumes that you have a working set-up of mediawiki and that you are able to easily setup additional instances. This was subject to the Hands-on I session.

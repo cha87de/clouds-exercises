@@ -1,20 +1,8 @@
 #!/bin/bash
-cat README.md > exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
+source ../build
 
-cat lesson-openstacknetworking.md >> exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
+EXERCISE_FILES="lesson-openstacknetworking.md lesson-multitier.md lesson-loadbalancing.md"
+EXTRA_ARTIFACTS="" # excluding: exercise.pdf, solution.pdf
 
-cat lesson-multitier.md >> exercise.md 
-echo "\newpage" >> exercise.md
-echo "" >> exercise.md
-
-cat lesson-loadbalancing.md >> exercise.md 
-echo "" >> exercise.md
-
-pandoc --latex-engine=xelatex exercise.md -t latex -o exercise.pdf
-rm exercise.md
-
-pandoc --latex-engine=xelatex solution.md -t latex -o solution.pdf
+buildExercise
+buildSolution
