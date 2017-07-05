@@ -1,0 +1,7 @@
+build_tex:
+    image: jagregory/pandoc
+    script:
+        - ./build export
+    artifacts:
+        paths:
+            - artifacts/

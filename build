@@ -32,12 +32,27 @@ function buildExercise(){
 
 function buildAll(){
 
+    exportArtifacts=$1; shift
+
+    if [[ $exportArtifacts == "export" ]]; then
+        mkdir -p artifacts
+    fi
+
     for ex in $(ls | grep ex-); do
         (
             echo "build exercise $ex ..."
             cd $ex
             source ./build
             echo "EXTRA_ARTIFACTS: $EXTRA_ARTIFACTS"
+
+            if [[ $exportArtifacts == "export" ]]; then
+                mkdir -p ../artifacts/$ex
+                cp exercise.pdf ../artifacts/$ex/
+                cp solution.pdf ../artifacts/$ex/
+                for artifact in $EXTRA_ARTIFACTS; do
+                    cp $artifact ../artifacts/$ex/
+                done
+            fi
         )
     done
 
