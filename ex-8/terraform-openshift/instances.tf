@@ -14,10 +14,9 @@ data "template_file" "init_openshift-node" {
 # create openshift-master
 resource "openstack_compute_instance_v2" "openshift-master" {
 	name = "openshift-master"
-	#image_name = "CentOS Server 7-1608 RAW"
-	image_name = "Centos7-2017-07-04"
+	image_name = "CentOS Server 7-1608 RAW"
 	flavor_name = "m1.medium"
-	key_pair = "bwcloud"
+	key_pair = "YOUR_KEYPAIR_NAME"
 	security_groups = ["default", "openshift"]
 	region	= "Ulm"
 	network {
@@ -40,10 +39,9 @@ resource "openstack_compute_floatingip_associate_v2" "fip_openshift-master" {
 # create openshift-node1
 resource "openstack_compute_instance_v2" "openshift-node1" {
 	name = "openshift-node1"
-	#image_name = "CentOS Server 7-1608 RAW"
-	image_name = "Centos7-2017-07-04"
+	image_name = "CentOS Server 7-1608 RAW"
 	flavor_name = "m1.medium"
-	key_pair = "bwcloud"
+	key_pair = "YOUR_KEYPAIR_NAME"
 	security_groups = ["default", "openshift"]
 	region	= "Ulm"
 	network {
@@ -55,10 +53,9 @@ resource "openstack_compute_instance_v2" "openshift-node1" {
 # create openshift-node1
 resource "openstack_compute_instance_v2" "openshift-node2" {
 	name = "openshift-node2"
-	#image_name = "CentOS Server 7-1608 RAW"
-	image_name = "Centos7-2017-07-04"
+	image_name = "CentOS Server 7-1608 RAW"
 	flavor_name = "m1.medium"
-	key_pair = "bwcloud"
+	key_pair = "YOUR_KEYPAIR_NAME"
 	security_groups = ["default", "openshift"]
 	region	= "Ulm"
 	network {
