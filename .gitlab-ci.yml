@@ -1,5 +1,7 @@
 build_tex:
-    image: jagregory/pandoc
+    image: tianon/latex
+    before_script:
+        - apt-get install -y pandoc
     script:
         - ./build export
     artifacts:
