@@ -1,7 +1,7 @@
 build_tex:
     image: tianon/latex
     before_script:
-        - apt-get install -y pandoc
+        - apt-get update && apt-get install -y pandoc
     script:
         - ./build export
     artifacts:
