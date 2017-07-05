@@ -2,7 +2,7 @@
 source ../build
 
 EXERCISE_FILES=""
-EXTRA_ARTIFACTS="" # excluding: exercise.pdf, solution.pdf
+EXTRA_ARTIFACTS="solution-slides.pdf" # excluding: exercise.pdf, solution.pdf
 
 buildExercise
 buildSolution
