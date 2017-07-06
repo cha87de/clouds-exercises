@@ -2,6 +2,9 @@
 
 In this practical hands-on you will learn how to work with Cloud computing from Infrastructure as a Service towards Platform as a Service.
 
+PDFs are available here
+https://omi-gitlab.e-technik.uni-ulm.de/ch/clouds-exercises/builds/artifacts/master/browse/artifacts/?job=build_tex
+
 ## Prerequisits
 
  * You should be familiar with Linux and Bash, and have a basic understanding of networking with Linux
