@@ -8,7 +8,6 @@ systemctl enable NetworkManager
 systemctl start NetworkManager
 
 ## lookup public hostname
-#publicIP=$(line=($(ip addr show eth0 | grep "inet ")); echo $${line[1]} | cut -d'/' -f1)
 privateIP=$(line=($(ip addr show eth0 | grep "inet ")); echo $${line[1]} | cut -d'/' -f1)
 publicIP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
 hostname=$(nslookup $publicIP | grep "in-addr.arpa" | cut -d'=' -f2 | tr -d ' '''  | sed s'/.$//')
@@ -33,7 +32,12 @@ systemctl enable docker
 systemctl restart docker
 
 # configure SSH accessability
-echo "PLACE_YOUR_BWCLOUD_PRIVATE_KEY_HERE!" > /root/.ssh/id_rsa
+echo "-----BEGIN RSA PRIVATE KEY-----
+XYZ....
+.
+.
+.
+-----END RSA PRIVATE KEY-----" > /root/.ssh/id_rsa
 chmod 600 /root/.ssh/id_rsa
 echo "Host *
    StrictHostKeyChecking no
