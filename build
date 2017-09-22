@@ -38,6 +38,8 @@ function buildAll(){
         mkdir -p artifacts
     fi
 
+    artefactList=""
+
     for ex in $(ls | grep ex-); do
         (
             echo "build exercise $ex ..."
@@ -49,12 +51,17 @@ function buildAll(){
                 mkdir -p ../artifacts/$ex
                 cp exercise.pdf ../artifacts/$ex/
                 cp solution.pdf ../artifacts/$ex/
+                artefactList="$artefactList artifacts/$ex/exercise.pdf"                
+                artefactList="$artefactList artifacts/$ex/solution.pdf"
                 for artifact in $EXTRA_ARTIFACTS; do
                     cp $artifact ../artifacts/$ex/
                 done
             fi
         )
     done
+
+    # merge pdfs to one script file
+    pdftk $artefactList cat output artifacts/fullscript.pdf
 
 }
 
