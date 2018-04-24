@@ -1,5 +1,5 @@
 ---
-date: 2017-07-06
+date: 2018-05-17
 subtitle: "Exercise 3: Scaling and Load Balancing"
 ---
 # Exercise 3: Scaling and Load Balancing

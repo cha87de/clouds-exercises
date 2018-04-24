@@ -1,5 +1,5 @@
 ---
-date: 2017-07-06
+date: 2018-06-21
 subtitle: "Exercise 7: Kubernetes; Reliability & Availability"
 ---
 # Exercise 7: Kubernetes; Reliability & Availability

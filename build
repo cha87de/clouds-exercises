@@ -5,7 +5,7 @@ function buildSolution(){
     cp solution.md solution.md.2
     sed -i "1s/.*/$var/" solution.md.2
     cat solution.md.2 >> solution.md.1
-    pandoc --latex-engine=xelatex  solution.md.1 -t latex -o solution.pdf --template ../template/eisvogel.latex
+    pandoc --pdf-engine=xelatex  solution.md.1 -t latex -o solution.pdf --template ../template/eisvogel.latex
     rm solution.md.1 solution.md.2
 }
 
@@ -26,7 +26,7 @@ function buildExercise(){
         echo "" >> exercise.md
     done
 
-    pandoc --latex-engine=xelatex exercise.md -t latex -o exercise.pdf --template ../template/eisvogel.latex
+    pandoc --pdf-engine=xelatex exercise.md -t latex -o exercise.pdf --template ../template/eisvogel.latex
     rm exercise.md
 }
 
@@ -45,7 +45,6 @@ function buildAll(){
             echo "build exercise $ex ..."
             cd $ex
             source ./build
-            echo "EXTRA_ARTIFACTS: $EXTRA_ARTIFACTS"
 
             if [[ $exportArtifacts == "export" ]]; then
                 mkdir -p ../artifacts/$ex
@@ -53,6 +52,7 @@ function buildAll(){
                 cp solution.pdf ../artifacts/$ex/
                 artefactList="$artefactList artifacts/$ex/exercise.pdf"                
                 artefactList="$artefactList artifacts/$ex/solution.pdf"
+                echo "EXTRA_ARTIFACTS: $EXTRA_ARTIFACTS"                
                 for artifact in $EXTRA_ARTIFACTS; do
                     cp $artifact ../artifacts/$ex/
                 done
@@ -60,8 +60,10 @@ function buildAll(){
         )
     done
 
-    # merge pdfs to one script file
-    pdftk $artefactList cat output artifacts/fullscript.pdf
+    if [[ $exportArtifacts == "export" ]]; then
+        # merge pdfs to one script file
+        pdftk $artefactList cat output artifacts/fullscript.pdf
+    fi
 
 }
 

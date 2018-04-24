@@ -1,8 +1,8 @@
 #!/bin/bash
 source ../build
 
-EXERCISE_FILES=""
-EXTRA_ARTIFACTS="solution.pptx intro.pdf" # excluding: exercise.pdf, solution.pdf
+EXERCISE_FILES="lesson-openstack.md lesson-omistack.md lesson-mediawiki.md"
+EXTRA_ARTIFACTS="" # excluding: exercise.pdf, solution.pdf
 
 buildExercise
 buildSolution

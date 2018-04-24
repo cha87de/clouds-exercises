@@ -1,5 +1,5 @@
 ---
-date: 2017-07-13
+date: 2018-05-24
 subtitle: "Solution for Exercise 3"
 ---
 # Answers to questions

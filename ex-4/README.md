@@ -1,5 +1,5 @@
 ---
-date: 2017-07-06
+date: 2018-05-24
 subtitle: "Exercise 4: Automating Cloud Deployments"
 ---
 # Exercise 4: Automating Cloud Deployments

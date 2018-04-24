@@ -1,5 +1,5 @@
 ---
-date: 2017-07-06
+date: 2018-06-28
 subtitle: "Exercise 8: Platform as a Service with Heroku and OpenShift"
 ---
 # Exercise 8: Platform as a Service with Heroku and OpenShift
