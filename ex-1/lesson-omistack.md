@@ -41,9 +41,9 @@ pc, e.g. using the [ssh-keygen tool](https://linux.die.net/man/1/ssh-keygen).
 
 Before we can work with OpenStack, we need to check the firewall rules to allow
 remote access. These firewall rules are organised within "security groups". In
-the OpenStack dashboard, go to "Access & Security". You should see only the
-"default" security group. Click on "manage rules". The rules should be similar
-to the following ones:
+the OpenStack dashboard, go to "Network" and "Security Groups". You should see
+only the "default" security group. Click on "manage rules". The rules should be
+similar to the following ones:
 
 ![rules for security group default](imgs/secgroup-default.png)
 

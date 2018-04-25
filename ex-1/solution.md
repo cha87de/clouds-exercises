@@ -2,12 +2,9 @@
 date: 2018-05-03
 subtitle: "Solution for Exercise 1"
 ---
-# Answers to questions
+# Lesson 1: OpenStack Basics
 
-
-## Lesson 1: OpenStack Basics
-
-### Question: Hypervisors and Virtual Machines
+## Question: Hypervisors and Virtual Machines
 
 *What are the basic tasks of a hypervisor?*
 
@@ -39,15 +36,15 @@ bare metal, Type 2 runs on top of an operating system). Examples: XEN (Type 1), 
 - Drawback: Virtualisation costs performance and may lead to resource interference when more than one VM is hosted
 - Benefit: virtual machine is abstracted from hardware and can be freely moved between hardware
 
-## Lesson 2: First Steps with Omistack
+# Lesson 2: First Steps with Omistack
 
-### Task: Launch your first Instance
+## Task: Launch your first Instance
 
 Your first instance in Openstack should look like follows:
 
 ![First instance in Openstack](imgs/firstinstance.png)
 
-## Lesson 3: Install Mediawiki Application
+# Lesson 3: Install Mediawiki Application
 
 The setup looks as follows at the moment: one virtual machine, based on an Ubuntu 14.04 operating system, with an Apache2 web server and a MariaDB database server.
 
@@ -70,7 +67,7 @@ The ready Mediawiki installation looks like follows:
 
 ![Mediawiki Installation](imgs/mediawiki.png)
 
-### Question: One Instance for Database and Application
+## Question: One Instance for Database and Application
 
 **Pro:**
 

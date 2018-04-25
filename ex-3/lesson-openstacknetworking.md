@@ -17,13 +17,13 @@ Scan the official project navigator page at [1].
 
 ## Research: OpenStack Networking
 OpenStack provides besides virtual machines virtual networks. The virtual network can be bridged to a public network or can be a private one.
-In the exercise so far, we used a public network to attach virtual machines directly to it. To hide some of your virtual machines from the public access, a private network is sometimes more useful. Such a virtual private network is then only accessible within attached virtual machines. To still have access to some of your virtual machines from the public, so called *floating IPs* can be used. Floating IPs can be assigned manually to virtual machines, while other IPs from public or private networks are assigned automatically by DHCP.
+In the exercise so far, we used already a virtual private network to attach virtual machines to it. Such a virtual private network is only accessible within attached virtual machines. To still have access to some of your virtual machines from the public, so called *floating IPs* can be used. Floating IPs can be assigned manually to virtual machines, while other IPs from the private networks are assigned automatically by DHCP.
 
 ## Question: Floating IPs vs. DHCP
 What are the benefits and drawbacks of the manual assignment of floating IPs to virtual machines, compared to the automatic assignment in DHCP?
 
 ## Task: OpenStack Networking
-For the next steps in our exemplary mediawiki application, let's switch from plain public IPs to a virtual private network and public floating IPs.
+For the next steps in our exemplary mediawiki application, let's have a close look at the virtual private network and public floating IPs.
 
 ### Create a private network in OpenStack
 In OpenStack, go to "Network -> Networks".
