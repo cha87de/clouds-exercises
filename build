@@ -1,5 +1,6 @@
 #!/bin/bash
 set -x
+
 function buildSolution(){
     cat ../template/default.properties > solution.md.1
     cp solution.md solution.md.2
@@ -38,32 +39,33 @@ function buildAll(){
         mkdir -p artifacts
     fi
 
-    artefactList=""
+    export artefactList=""
 
     for ex in $(ls | grep ex-); do
-        (
-            echo "build exercise $ex ..."
-            cd $ex
-            source ./build
+        
+        echo "build exercise $ex ..."
+        p=$(pwd) ; cd $ex
+        source ./build
 
-            if [[ $exportArtifacts == "export" ]]; then
-                mkdir -p ../artifacts/$ex
-                cp exercise.pdf ../artifacts/$ex/
-                cp solution.pdf ../artifacts/$ex/
-                artefactList="$artefactList artifacts/$ex/exercise.pdf"                
-                artefactList="$artefactList artifacts/$ex/solution.pdf"
-                echo "EXTRA_ARTIFACTS: $EXTRA_ARTIFACTS"                
-                for artifact in $EXTRA_ARTIFACTS; do
-                    cp $artifact ../artifacts/$ex/
-                done
-            fi
-        )
+        if [[ $exportArtifacts == "export" ]]; then
+            mkdir -p ../artifacts/$ex
+            cp exercise.pdf ../artifacts/$ex/
+            cp solution.pdf ../artifacts/$ex/
+            export artefactList="$artefactList artifacts/$ex/exercise.pdf"                
+            export artefactList="$artefactList artifacts/$ex/solution.pdf"
+            echo "EXTRA_ARTIFACTS: $EXTRA_ARTIFACTS"                
+            for artifact in $EXTRA_ARTIFACTS; do
+                cp $artifact ../artifacts/$ex/
+            done
+        fi
+
+        cd $p
     done
 
     if [[ $exportArtifacts == "export" ]]; then
         # merge pdfs to one script file
-        #pdftk $artefactList cat output artifacts/fullscript.pdf
-        echo "skip pdftk to debug ci build"
+        echo "merge pdfs to one script file"
+        pdftk $artefactList cat output artifacts/fullscript.pdf
     fi
 
 }
