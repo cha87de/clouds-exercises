@@ -5,7 +5,7 @@ function buildSolution(){
     cp solution.md solution.md.2
     sed -i "1s/.*/$var/" solution.md.2
     cat solution.md.2 >> solution.md.1
-    pandoc --pdf-engine=xelatex  solution.md.1 -t latex -o solution.pdf --template ../template/eisvogel.latex
+    pandoc --latex-engine=xelatex solution.md.1 -t latex -o solution.pdf --template ../template/eisvogel.latex
     rm solution.md.1 solution.md.2
 }
 
@@ -26,7 +26,7 @@ function buildExercise(){
         echo "" >> exercise.md
     done
 
-    pandoc --pdf-engine=xelatex exercise.md -t latex -o exercise.pdf --template ../template/eisvogel.latex
+    pandoc --latex-engine=xelatex exercise.md -t latex -o exercise.pdf --template ../template/eisvogel.latex
     rm exercise.md
 }
 
