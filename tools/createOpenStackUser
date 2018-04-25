@@ -1,0 +1,102 @@
+#!/bin/sh
+#set -x
+
+function createProject(){
+        project=$1
+        description=$2
+
+        openstack project create --description "$description" "$project" --domain default
+}
+
+function createUser(){
+        user=$1
+        password=$2
+        project=$3
+
+        openstack user create --project "$project" --password "$password" "$user"
+        openstack role add --user "$user" --project "$project" "user"
+}
+
+function createNetwork(){
+        name=$1
+        project=$2
+
+        openstack network create \
+                --project $project \
+                $name
+}
+
+function createSubnet(){
+        name=$1
+        network=$2
+        project=$3
+
+        openstack subnet create \
+                --project $project \
+                --subnet-range "192.168.0.0/24" \
+                --allocation-pool start=192.168.0.2,end=192.168.0.254 \
+                --dhcp \
+                --gateway 192.168.0.1 \
+                --ip-version 4 \
+                --network $network \
+                $name
+}
+
+function createRouter(){
+        name=$1
+        subnet=$2
+        project=$3
+
+        openstack router create \
+                --project $project \
+                $name
+
+        openstack router set \
+                --external-gateway "extnet"\
+                $name
+
+        openstack router add subnet \
+                "$name" "$subnet"
+}
+
+function setDefaultQuota(){
+        project=$1
+
+        openstack quota set \
+                --cores 8 \
+                --fixed-ips -1 \
+                --injected-file-size 10240 \
+                --injected-files 5 \
+                --instances 8 \
+                --key-pairs 10 \
+                --ram 16384 \
+                --server-groups 10 \
+                --server-group-members 10 \
+                --gigabytes 50 \
+                --snapshots 10 \
+                --volumes 10 \
+                --floating-ips 4 \
+                --secgroup-rules 100 \
+                --secgroups 10 \
+                --networks 5 \
+                --subnets 10 \
+                --ports 500 \
+                --routers 2 \
+                --rbac-policies 10 \
+                $project
+}
+
+
+user="clouds2018-$1"
+project="$user"
+password=$(openssl rand -base64 6)
+
+echo "password for user ${user}: $password"
+
+createProject $project "Project for Student of Clouds Exercise Summer Semester 2018"
+createUser $user $password $project
+setDefaultQuota $project
+
+createNetwork "private-net-$user" $project
+createSubnet "private-subnet-$user" "private-net-$user" $project
+createRouter "private-router-$user" "private-subnet-$user" $project
