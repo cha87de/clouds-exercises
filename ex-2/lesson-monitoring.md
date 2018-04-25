@@ -27,7 +27,7 @@ Create a new instance on OpenStack:
 
 - Name: monitoring
 - Source: Create new Volume set to "No", then select Ubuntu Server 16.04 (ubuntu-1604)
-- Flavor: select "compute_medium"
+- Flavor: select "medium" (4 cores, 4GB memory, 10GB disk)
 
 - Select both the default and the monitoring security groups
 - Validate that your ssh key and the public network are selected

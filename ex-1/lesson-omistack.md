@@ -79,7 +79,7 @@ In the Source tab:
 
 In the Flavor tab:
 
- - Select "small" as flavor 
+ - Select "small" as flavor (2 cores, 1GB memory, 10GB disk)
 
 In the Networks tab:
 
