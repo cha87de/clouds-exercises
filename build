@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set -x
 function buildSolution(){
     cat ../template/default.properties > solution.md.1
     cp solution.md solution.md.2
@@ -62,7 +62,8 @@ function buildAll(){
 
     if [[ $exportArtifacts == "export" ]]; then
         # merge pdfs to one script file
-        pdftk $artefactList cat output artifacts/fullscript.pdf
+        #pdftk $artefactList cat output artifacts/fullscript.pdf
+        echo "skip pdftk to debug ci build"
     fi
 
 }
