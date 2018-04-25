@@ -1,5 +1,9 @@
 build_tex:
     image: omi-registry.e-technik.uni-ulm.de/ch/dockerlatex
+    
+    before_script:
+        - apt-get update && apt-get install -y pandoc texlive-fonts-extra pdftk
+
     script:
         - ./build export
     artifacts:
