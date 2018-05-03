@@ -1,13 +1,13 @@
 # Lesson 2: Terraform and cloud-init on OpenStack
 
-Clean up your bw-cloud tenant. *Remove all the virtual machines, the private networking, the router, and the security groups.*
+Clean up your OpenStack project. *Remove all the virtual machines, the private networking, the router, and the security groups.*
 We will now create the mediawiki from scratch - automated!
 
 ## Task: Install Terraform on your workstation
 
 Terraform runs on your workstation. It reads a terraform script from your file system, and then connects to the specified cloud platform to create the infrastructure.
 
-Download [1] and install [2] the newest version of Terraform on your workstation. There might be a package for your linux distribution.
+Download [1] and install [2] the newest version (v0.11.7) of Terraform on your workstation. There might be a package for your linux distribution.
 
 [1] https://www.terraform.io/downloads.html
 
@@ -15,13 +15,13 @@ Download [1] and install [2] the newest version of Terraform on your workstation
 
 ## Task: Deploy Mediawiki with Terraform
 
-Download and extract the `terraform-bwcloud.zip` file from Moodle to your workstation, where you installed terraform.
-The extracted folder will be named `working directory` in the following. 
-It contains several terraform files and bash scripts, which are necessary to deploy mediawiki on bwcloud.
+Download and extract the `terraform.zip` file from Moodle to your workstation, where you installed terraform.
+The extracted folder will be named `working directory` in the following.
+It contains several terraform files and bash scripts, which are necessary to deploy mediawiki on OpenStack.
 
-Before you can deploy the mediawiki with terraform, please change your bwcloud username and tenant. 
+Before you can deploy the mediawiki with terraform, please change your OpenStack username and tenant. 
 In the working directory, edit the file `provider.tf` and change `xyz12` to your user id. Look up the
-name of your ssh key pair in bwcloud (via Access & Security, Key Pairs), edit the file `instances.tf`
+name of your ssh key pair in OpenStack (via Access & Security, Key Pairs), edit the file `instances.tf`
 and replace the existing name in the field `key_pair` with your ssh key name. 
 If you are comfortable with writing your password in the password field, you can start right away. 
 But there's a more secure way for your password (tested with linux bash): 
@@ -41,7 +41,7 @@ Let's start the mediawiki deployment:
  - use `terraform plan` to see the actions that will happen
  - use `terraform apply`to run those actions
 
-Relax. Check the bwcloud dashboard. You should see three virtual machines: loadbalancer, database, mediawiki-1.
+Relax. Check the OpenStack dashboard. You should see three virtual machines: loadbalancer, database, mediawiki-1.
 If you navigate your browser to http://floating_ip/wiki you should see a working mediawiki instance.
 
 ## Task: Extend the Terraform deployment

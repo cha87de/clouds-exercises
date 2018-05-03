@@ -2,11 +2,11 @@
 source ../build
 
 EXERCISE_FILES="lesson-conceptcloud.md lesson-terraform.md"
-EXTRA_ARTIFACTS="terraform-bwcloud.zip terraform-bwcloud-solution.zip" # excluding: exercise.pdf, solution.pdf
+EXTRA_ARTIFACTS="terraform.zip terraform-solution.zip" # excluding: exercise.pdf, solution.pdf
 
 buildExercise
 buildSolution
 
 # build zip files
-zip -r terraform-bwcloud.zip terraform-bwcloud
-zip -r terraform-bwcloud-solution.zip terraform-bwcloud-solution
+zip -r terraform.zip terraform
+zip -r terraform-solution.zip terraform-solution
