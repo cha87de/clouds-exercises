@@ -38,6 +38,7 @@ Let's start the mediawiki deployment:
 
  - use the terminal from before
  - make sure you are in the working directory
+ - use `terraform init` to install additional terraform dependencies in your workspace
  - use `terraform plan` to see the actions that will happen
  - use `terraform apply`to run those actions
 

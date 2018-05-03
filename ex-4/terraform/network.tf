@@ -17,7 +17,7 @@ resource "openstack_networking_router_v2" "private-router" {
   region = "RegionOne"
 
   #Network Id of public network for floating ips
-  external_gateway = "9fcc0c20-1e43-48d2-8712-7d8cb9cf3b8a"
+  external_network_id = "9fcc0c20-1e43-48d2-8712-7d8cb9cf3b8a"
 }
 
 # Add interface to private subnet to private router
