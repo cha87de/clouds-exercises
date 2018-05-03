@@ -10,7 +10,7 @@ Since the IP of the monitoring VM is unchanged, your new second_server should ap
 Validate if the new vm shows up in Chronograf before you continue.
 
 ## Task: Create the loadbalancer
-1. Create a new VM named "loadbalancer" with flavor "m1.nano" and image "ubuntu 16.04". This new VM must be attached to your private-net network!
+1. Create a new VM named "loadbalancer" with flavor "small" and image "ubuntu 16.04". This new VM must be attached to your private-net network!
 2. Add a Floating IP to the loadbalancer vm, by clicking "Associate floating ip". If "no floating IPs are allocated"  is shown, click the "+" Button to allocate a floating IP from the "routed" pool.
 3. Connect to the new loadbalancer vm via SSH
 
