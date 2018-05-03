@@ -30,8 +30,9 @@ Create a new instance on OpenStack:
 - Flavor: select "medium" (4 cores, 4GB memory, 10GB disk)
 
 - Select both the default and the monitoring security groups
-- Validate that your ssh key and the public network are selected
+- Validate that your ssh key is selected
 
+Then launch the instance, and attach a public floating ip.
 Log in via SSH to the new vm with username "ubuntu" and the public IP you got assigned. In the new vm, install InfluxDB and Chronograf:
 
 ```
@@ -40,7 +41,7 @@ source /etc/lsb-release
 echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" \
     | sudo tee /etc/apt/sources.list.d/influxdb.list
 sudo apt-get update && sudo apt-get install influxdb
-sudo service influxdb start
+sudo systemctl start influxdb
 wget https://dl.influxdata.com/chronograf/releases/chronograf_1.3.0_amd64.deb
 sudo dpkg -i chronograf_1.3.0_amd64.deb
 ```
@@ -75,7 +76,7 @@ sudo apt-get update && sudo apt-get install telegraf
 sudo service telegraf start
 ```
 
-We need to configure telegraf to point to your monitoring vm. Open as root (with sudo) e.g. with vim the file /etc/telegraf/telegraf.conf. In the `[[outputs.influxdb]]` section change the urls field from `urls = ["http://localhost:8086"]` to point to the public IP address of your monitoring vm.
+We need to configure telegraf to point to your monitoring vm. Open as root (with sudo) e.g. with vim the file /etc/telegraf/telegraf.conf. In the `[[outputs.influxdb]]` section change the urls field from `urls = ["http://localhost:8086"]` to point to the IP address of your monitoring vm.
 
 Restart telegraf with `service telegraf restart` and check the Chronograf dashboard. You should see monitoring data from host "main-server" now. You will see the basic system metrics of this vm. Let's add monitoring data from apache and mariadb next. Re-open the file /etc/telegraf/telegraf.conf and uncomment the following lines:
 
