@@ -17,9 +17,17 @@ Now that we have a monitoring and our mediawiki running, it is time to put some 
 
 ## Task: Vertical Scaling
 
-Try to scale your application vertically, by adding more virtual hardware resources. In OpenStack in the Instances overview the option to "resize instance". Before we use this option to add more CPU and Memory, we should back up our work, by creating a new snapshot, e.g. named "mediawiki-snapshot-2". You can safely remove the first snapshot, since it has no monitoring installed. After the snapshot finished, resize your main_server instance with your mediawiki application to **flavor medium**. The resize process takes up to a few minutes and needs to be confirmed, don't miss this step on the dashboard.
+Try to scale your application vertically, by adding more virtual hardware resources.
+
+Before we create a new instance with more CPU and Memory, we should back up our work, by creating a new snapshot, e.g. named "mediawiki-snapshot-2" of your main_server.
+Remove the first snapshot from exercise 1, since it has no monitoring installed.
+
+After the snapshot finished, delete your main_server instance with your mediawiki application, and launch a new instance. In the **source tab**, select "Select Boot Source" and then **your snapshot**. Make sure to select "No" in "Create New Volume".
+Select **flavor medium**. Reassign the previously used floating IP to your new instance.
 
 Next, validate that mediawiki and the monitoring data are still working properly.
+
+Please note: the host attached to your floating IP has now changed. When connecting via ssh, the host key verification will fail. You first have to remove the cached host key, which identified your old instance.
 
 ## Question: Vertical Scaling
 
