@@ -22,7 +22,7 @@ Try to scale your application vertically, by adding more virtual hardware resour
 Before we create a new instance with more CPU and Memory, we should back up our work, by creating a new snapshot, e.g. named "mediawiki-snapshot-2" of your main_server.
 Remove the first snapshot from exercise 1, since it has no monitoring installed.
 
-After the snapshot finished, delete your main_server instance with your mediawiki application, and launch a new instance. In the **source tab**, select "Select Boot Source" and then **your snapshot**. Make sure to select "No" in "Create New Volume".
+After the snapshot finished, delete your main_server instance with your mediawiki application, and launch a new instance. In the **source tab**, select in "Select Boot Source" the option "Instance Snapshot", and then pick **your snapshot**. Make sure to select "No" in "Create New Volume".
 Select **flavor medium**. Reassign the previously used floating IP to your new instance.
 
 Next, validate that mediawiki and the monitoring data are still working properly.
