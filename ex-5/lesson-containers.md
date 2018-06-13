@@ -1,11 +1,12 @@
 # Lesson 1: Concept of Containers
 
-Our Cloud Stack so far had three layers: Cloud Platform, Virtual Resource, and Application Component. 
-This means, that the applications are installed directly on top of the virtual operating system. 
-In this lesson we will introduce a fourth layer: the application components are no longer 
-installed on the operating system but are deployed inside containers.
+Our Cloud Stack so far had three layers: Cloud Platform, Virtual Resource, and
+Application Component. This means, that the applications are installed directly
+on top of the virtual operating system. In this lesson we will introduce a
+fourth layer: the application components are no longer installed on the
+operating system but are deployed inside containers.
 
-| Cloud Stack | Example | Deployment Tool | 
+| Cloud Stack | Example | Deployment Tool |
 | --- | --- | --- |
 | **Application Component** | Mediawiki | (Bash) scripts |
 | **Containers** | Docker | Dockerfile |
@@ -14,12 +15,14 @@ installed on the operating system but are deployed inside containers.
 
 ## Research: What are containers and why to use them?
 
-Before we start to work with containers, we need to understand why containers exist, and what
-their benefits are. This blog post [1] gives a nice introduction. The most popular container software
-is Docker. On the Docker page, they compare containers and virtual machines and how they fit together [2].
+Before we start to work with containers, we need to understand why containers
+exist, and what their benefits are. This blog post [1] gives a nice
+introduction. The most popular container software is Docker. On the Docker page,
+they compare containers and virtual machines and how they fit together [2].
 
-In the practical part of this exercise we will use Docker [3] and LXC [4] as container software. Become familiar
-with both tools, to understand their similarities and differences.
+In the practical part of this exercise we will use Docker [3] and LXC [4] as
+container software. Become familiar with both tools, to understand their
+similarities and differences.
 
 [1] https://www.digitalocean.com/community/tutorials/the-docker-ecosystem-an-overview-of-containerization
 
@@ -37,9 +40,9 @@ with both tools, to understand their similarities and differences.
 
 ## Task: Create Containers with LXC
 
-Clean up your bwcloud workspace: remove unnecessary virtual machines, release floating IPs, remove unused snapshots.
+Clean up your openstack workspace: remove unnecessary virtual machines, release floating IPs, remove unused snapshots.
 
-Create a new virtual machine named "lxc" in bwcloud with flavor m1.small from Ubuntu 16.04, and log into this VM via SSH. 
+Create a new virtual machine named "lxc" in openstack with flavor small from Ubuntu 16.04, attach a floating IP and log into this VM via SSH.
 Inside the VM, let's install software for LXC. We will follow the official _lxc getting started guide_ [1]
 
 ```
@@ -47,9 +50,10 @@ sudo apt-get update
 sudo apt-get install -y lxc
 
 # some configurations needed
-sudo echo "ubuntu veth lxcbr0 10" >> /etc/lxc/lxc-usernet
+echo "ubuntu veth lxcbr0 10" | sudo tee -a /etc/lxc/lxc-usernet
 mkdir -p ~/.config/lxc
 cp /etc/lxc/default.conf ~/.config/lxc
+
 echo "lxc.id_map = u 0 $(cat /etc/subuid | grep ubuntu | cut -d ':' -f 2,3 | tr ':' ' ')
 lxc.id_map = g 0 $(cat /etc/subgid | grep ubuntu | cut -d ':' -f 2,3 | tr ':' ' ')" \
     >> ~/.config/lxc/default.conf
@@ -61,9 +65,9 @@ sudo reboot
 Lets create and start an LXC container according to [1]:
 
 ```
-# create the container
-lxc-create -t download -n my-container2
-# e.g. select Distribution: ubuntu, Release: xenial, Architecture: i386
+# create a ubuntu container
+lxc-create -t download -n my-container
+# when asked, select Distribution: ubuntu, Release: xenial, Architecture: i386
 
 # validate that the container exists and is STOPPED
 lxc-ls -f
@@ -80,6 +84,8 @@ ps -ef | wc -l
 # log into the container
 lxc-attach -n my-container
 
+## now, let's explore the inside of the container...
+
 # Count the number of processes in the container
 ps -ef | wc -l
 
@@ -92,9 +98,14 @@ exit
 # stop and destroy container
 lxc-stop --name my-container
 lxc-destroy --name my-container
+
+## now back on the host run 
+## "ps -ef | wc -l" and "ip addr show"
+## to see the differences
 ```
 
-The newest version of lxc provides besides the lxc-{create,start,ls,stop,destroy,...} commands also the `lxc` command [2]:
+The newest version of lxc provides besides the
+lxc-{create,start,ls,stop,destroy,...} commands also the `lxc` command [2]:
 
 ```
 # browse images
@@ -114,6 +125,8 @@ exit
 # clone the container to web2
 lxc copy web1 web2
 lxc start web2
+
+## note: you just scaled horizontally - in a few seconds! :-)
 
 # list the containers
 lxc list
@@ -137,8 +150,9 @@ The lxc commands can be called by a script to automate the deployment and manage
 
 ## Task: Create Containers with Docker
 
-Create a new virtual machine named "docker" in bwcloud with flavor m1.small from Ubuntu 16.04, and log into this VM via SSH. 
-Inside the VM, let's install software for Docker [1].
+Create a new virtual machine named "docker" in openstack with flavor small from
+Ubuntu 16.04, attach a floating IP  and log into this VM via SSH. Inside the VM,
+let's install software for Docker [1].
 
 ```
 sudo apt-get install \
@@ -160,8 +174,8 @@ sudo systemctl enable docker
 sudo systemctl start docker
 ```
 
-You can validate that docker is installed by checking the version `docker --version` (should be something like 17.03.1-ce).
-_Before we continue, log out and log in again via ssh._
+You can validate that docker is installed by checking the version `docker --version` (should be something like 18.03.1-ce).
+_Before we continue, log out and log in again via ssh - do activate the new group from the usermod command._
 Next, let's create a container and explore the docker commands ...
 
 
@@ -190,7 +204,7 @@ docker images
 # Start another container from this image
 docker run -d --name web2 myweb:v1
 
-# do some more experiments ... 
+# do some more experiments ...
 # can you manage to access the web servers?
 # hint: docker run has a port forwarding parameter
 
@@ -227,8 +241,17 @@ docker images
 docker run -d --name web1 myreg/web
 ```
 
+We created two images myweb and myreg/web using two different approaches:
+
+```
+REPOSITORY          TAG                 IMAGE ID            CREATED              SIZE
+myreg/web           latest              8095a8698075        2 seconds ago        253MB
+myweb               v1                  fb191309fa9f        About a minute ago   253MB
+ubuntu              16.04               5e8b97a2a082        7 days ago           114MB
+```
+
 Docker Hub [2] is a central registry for Docker images. Tons of per-packaged software is available
-already, like database servers, web servers, ... 
+already, like database servers, web servers, ...
 
 [1] https://docs.docker.com/engine/installation/linux/ubuntu/#install-using-the-repository
 
@@ -242,7 +265,7 @@ Now that you are familiar with the basics of Docker:
 
 - How does a typical workflow for deploying a new application component look like?
 
-Have a look at the Docker Hub [1]. 
+Have a look at the Docker Hub [1].
 
 - Do you think it was useful to create an image for Apache by ourselves?
 
