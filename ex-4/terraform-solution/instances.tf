@@ -147,7 +147,7 @@ output "loadbalancer_floating_ip" {
 }
 
 # create floating ip for monitoring
-resource "openstack_networking_floatingip_v2" "fip_loadbalancer" {
+resource "openstack_networking_floatingip_v2" "fip_monitoring" {
   pool   = "extnet"
   region = "RegionOne"
 }
