@@ -17,12 +17,12 @@ https://docs.docker.com/engine/swarm/how-swarm-mode-works/services/
 
 * Where in our Cloud Stack do you place Docker Swarm?
 
-  | Cloud Stack | Example | Deployment Tool | 
-  | --- | --- | --- |
-  | **Application Component** | Mediawiki | ? |
-  | **Containers** | Docker | ? |
-  | **Virtual Resource** | Instance m1.small | ? |
-  | **Cloud Platform** | OpenStack | - |
+| Cloud Stack | Example | Deployment Tool | 
+| ---- | ---- | ---- |
+| **Application Component** | Mediawiki | ? |
+| **Containers** | Docker | ? |
+| **Virtual Resource** | Instance m1.small | ? |
+| **Cloud Platform** | OpenStack | - |
 
 ## Task: Setup Docker Swarm
 
