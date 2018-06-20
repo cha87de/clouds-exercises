@@ -17,7 +17,7 @@ https://docs.docker.com/engine/swarm/how-swarm-mode-works/services/
 
 * Where in our Cloud Stack do you place Docker Swarm?
 
-| Cloud Stack | Example | Deployment Tool | 
+| Cloud Stack | Example | Deployment Tool |
 | ---- | ---- | ---- |
 | **Application Component** | Mediawiki | ? |
 | **Containers** | Docker | ? |
@@ -26,12 +26,12 @@ https://docs.docker.com/engine/swarm/how-swarm-mode-works/services/
 
 ## Task: Setup Docker Swarm
 
-Deploy three virtual machines with docker installed on bwcloud. We can use the terraform bundle for this purpose.
+Deploy three virtual machines with docker installed on OpenStack. We can use the terraform bundle "terraform-dockernodes.zip" to automatise this process.
 
-Log in to the three VMs via SSH. Validate that Docker is running (e.g. via `docker ps -a`). 
+Log in to the three VMs via SSH. Validate that Docker is running (e.g. via `docker ps -a`).
 Docker Swarm is inactive, validate output of `docker info` and search for line `Swarm: inactive`.
 
-Lets take dockernode1 as swarm manager. Log in to dockernode1, look up the private IP address of this VM (`$PRIV_IP_DOCKERNODE1`), then run `docker swarm init --advertise-addr $PRIV_IP_DOCKERNODE1`. 
+Lets take dockernode1 as swarm manager. Log in to dockernode1, look up the private IP address of this VM (`$PRIV_IP_DOCKERNODE1`), then run `docker swarm init --advertise-addr $PRIV_IP_DOCKERNODE1`.
 The output of this command returns:
 
 ```
@@ -49,13 +49,11 @@ Validate your Docker Swarm cluster on dockernode1 with `docker node ls` - you sh
 
 ## Task: Start a test service
 
-For testing purposes we will now start three instances of the Ghost blog software on our Swarm cluster.
-Therefore create the service with 3 replicas:
+For testing purposes we will now start three instances of the Ghost blog software on our Swarm cluster. Note: `docker service ...` commands can only be executed on the swarm manager, in our case dockernode1. Create the service with 3 replicas:
 
 ```
 docker service create --replicas 3 --name ghost-blog\
   --publish 80:2368 ghost
-
 ```
 
 Validate that the service is booting with `docker service ls`, where the counter in column "REPLICAS" will go from 0/3 to 3/3 eventually.
@@ -67,7 +65,7 @@ Swarm allows you to scale horizontally up and down (`docker service scale $SERVI
 
 Updating the software is also handled by Swarm, where sequentially containers are removed and recreated to achieve zero downtime of the service. In case of errors, Swarm can rollback to the previous version.
 
-Remove the test service with `docker service rm ghost` before you continue.
+Remove the test service with `docker service rm ghost-blog` before you continue.
 
 ## Task: Mediawiki with Docker Swarm
 
@@ -82,7 +80,7 @@ We could use Docker Hub, or deploy our own registry. On dockernode1, run the fol
 sudo apt-get install -y software-properties-common
 sudo add-apt-repository -y ppa:certbot/certbot
 sudo apt-get update
-sudo apt-get install -y certbot 
+sudo apt-get install -y --allow-unauthenticated certbot 
 
 # lookup your public hostname
 floatingIP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
@@ -93,11 +91,11 @@ publicHostname=$(nslookup $floatingIP | grep "in-addr.arpa" |\
 sudo certbot certonly --standalone -d $publicHostname --agree-tos \
   --register-unsafely-without-email --preferred-challenges http
 sudo mkdir /opt/certs
-folder=$(ls /etc/letsencrypt/live/)
+folder=$(sudo ls /etc/letsencrypt/live/)
 sudo cp /etc/letsencrypt/live/$folder/fullchain.pem /opt/certs/
 sudo cp /etc/letsencrypt/live/$folder/privkey.pem /opt/certs/
 
-# start registry as container 
+# finally: start your docker registry as container 
 docker run -d -p 5000:5000 --restart=always --name registry \
   -v /opt/certs:/certs \
   -e REGISTRY_HTTP_TLS_CERTIFICATE=/certs/fullchain.pem \
@@ -105,16 +103,16 @@ docker run -d -p 5000:5000 --restart=always --name registry \
   registry:2
 ```
 
-Next, copy the Dockerfiles from exercise 5 to dockernode1. 
+Next, copy the Dockerfiles from exercise 5 to dockernode1.
 Change the `docker-compose.yml` file to the following content
-(replace `bwcloud-fipXYZ` to fit your `$publicHostname`):
+(replace `omistack-vmXYZ` to fit your `$publicHostname`):
 
 ```
 version: '3'
 services:
     web:
         build: Mediawiki
-        image: bwcloud-fipXYZ.rz.uni-ulm.de:5000/mediawiki
+        image: omistack-vmXYZ.e-technik.uni-ulm.de:5000/mediawiki
         ports:
           - 80:80
         deploy:
@@ -122,7 +120,7 @@ services:
           mode: replicated
     database:
         build: Database
-        image: bwcloud-fipXYZ.rz.uni-ulm.de:5000/database
+        image: omistack-vmXYZ.e-technik.uni-ulm.de:5000/database
         deploy:
           replicas: 1
           mode: replicated
@@ -132,11 +130,11 @@ Then build and push the images to your registry (still on dockernode1):
 
 ```
 docker-compose build
-docker push bwcloud-fipXYZ.rz.uni-ulm.de:5000/database
-docker push bwcloud-fipXYZ.rz.uni-ulm.de:5000/mediawiki
+docker push omistack-vmXYZ.e-technik.uni-ulm.de:5000/database
+docker push omistack-vmXYZ.e-technik.uni-ulm.de:5000/mediawiki
 ```
 
-Validate, that the registry works. Go to dockernode2 and download the image via `docker pull bwcloud-fipXYZ.rz.uni-ulm.de:5000/database`
+Validate, that the registry works. Go to dockernode2 and download the image via `docker pull omistack-vmXYZ.e-technik.uni-ulm.de:5000/database`
 
 Now we can use Docker Swarm to deploy our Docker Compose file. On dockernode1, run:
 
@@ -144,7 +142,14 @@ Now we can use Docker Swarm to deploy our Docker Compose file. On dockernode1, r
 docker stack deploy --compose-file docker-compose.yaml mediawiki
 ```
 
-Validate with `docker stack ps mediawiki` that you have three containers running, and check
-if you can access the mediawiki application via web browser. 
+Validate with `docker stack ps mediawiki` that you have three containers
+running, and check if you can access the mediawiki application via web browser. 
 
-We have now deployed the mediawiki in Docker containers across several (manually created) Docker hosts.
+We have now deployed the mediawiki in Docker containers across several (manually
+created) Docker hosts.
+
+## Task: Clean up
+
+Depending on your interests, run experiments with Docker Swarm. When you're done, make sure to clean up the resources in OpenStack, especially before moving on to the next lesson. 
+
+Clean up with terraform is as easy as typing `terraform destroy` :-)
