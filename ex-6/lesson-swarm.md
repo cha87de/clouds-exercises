@@ -31,6 +31,8 @@ Deploy three virtual machines with docker installed on OpenStack. We can use the
 Log in to the three VMs via SSH. Validate that Docker is running (e.g. via `docker ps -a`).
 Docker Swarm is inactive, validate output of `docker info` and search for line `Swarm: inactive`.
 
+Note: if you get `docker: Got permission denied while trying to connect to the Docker daemon socket` the cloud-init script has not yet finished. Logout and login a few seconds later again.
+
 Lets take dockernode1 as swarm manager. Log in to dockernode1, look up the private IP address of this VM (`$PRIV_IP_DOCKERNODE1`), then run `docker swarm init --advertise-addr $PRIV_IP_DOCKERNODE1`.
 The output of this command returns:
 

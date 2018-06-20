@@ -1,7 +1,7 @@
 # Lesson 2: Container Orchestration with Rancher
 
-Docker Swarm offers clustering of hosts to one large container cluster, and orchestrates services by placing
-containers on available hosts. Rancher is one level above: it offers a web gui to 
+Docker Swarm offers clustering of hosts to one large container cluster, and
+orchestrates services by placing containers on available hosts. Rancher is very equal, yet it even offers a web ui to manage a Rancher container cluster.
 
 ## Research: Rancher
 
@@ -15,7 +15,7 @@ http://docs.rancher.com/rancher/v1.6/en/
 
 Where in our Cloud Stack do you place Rancher?
 
-  | Cloud Stack | Example | Deployment Tool | 
+  | Cloud Stack | Example | Deployment Tool |
   | --- | --- | --- |
   | **Application Component** | Mediawiki | ? |
   | **Containers** | Docker | ? |
@@ -24,56 +24,33 @@ Where in our Cloud Stack do you place Rancher?
 
 ## Task: Install and start Rancher
 
-In bwcloud create a new keypair via `Access&Security > Key Pairs > Create Key Pair` with name rancher. 
-Next, use the terraform scripts in `terraform-rancher` to start a new virtual machine with docker and a docker
-registry. When the VM is up, place your Keypair rancher.pem file inside the vm at /opt/keypair/.
-
-Now start a Rancher service (it takes several seconds until rancher is accessible):
+Connect via ssh to your rancher-master VM. Now start a Rancher service (it takes
+several seconds until rancher is accessible):
 
 ```
 docker run -d --restart=unless-stopped -p 8080:8080 --name rancher \
-  -v /opt/keypair:/opt/keypair \
   rancher/server:stable
 ```
 
-Next, we will add hosts (virtual machines with a Rancher agent) to Rancher, while Rancher will create the 
-virtual resources.
-Open the web dashboard of your Rancher server http://PUBLIC_IP:8080/ and run the following instructions:
+Note: if you get `docker: Got permission denied while trying to connect to the Docker daemon socket` the cloud-init script has not yet finished. Logout and login a few seconds later again.
 
-* Admin > Machine Drivers
-* Activate OpenStack by pressing play button
+Next, we will add hosts (virtual machines with a Rancher agent) to Rancher. Open
+the web dashboard of your Rancher Master http://PUBLIC_IP:8080/.
 
-* Infrastructure > Hosts
-* Press "Add Host" Button
-* Select "Other" and in the form insert the following values:
+ - Click on "Infrastructure > Hosts" and select "Add Host".
+ - In "Host Registration URL" select "something else" and type in http://PRIVATE_IP:8080 with the private ip of your rancher-master. Press Save.
+ - On the next site, copy the `sudo docker ...` command from step 5 and execute it on all your rancher-host VMs and also to your rancher-master.
+ - Click "Close" and wait for the hosts to show up in the rancher dashboard.
 
-  | Field | Value |
-  | --- | --- |
-  | Name              | rancher-hosts                  |
-  | Quantity          | 3                  |
-  | Driver            | openstack                  |
-  |                   |                   |
-  | authUrl           | https://bwcloud.ruf.uni-freiburg.de:5000/v2.0                  |
-  | availabilityZone  | nova                  |
-  | flavorName        | m1.small                  |
-  | floatingipPool    | routed                  |
-  | imageName:        |	Ubuntu Server 16.04 RAW                  |
-  | keypairName:      | rancher                  |
-  | netName:          | private-net                  |
-  | password:         | YOUR_BWCLOUD_PW                  |
-  | privateKeyFile:   | /opt/keypair/rancher.pem                  |
-  | region:           | Ulm                  |
-  | secGroups:        | default,rancher       |
-  | sshUser:          | ubuntu                  |
-  | tenantName:       | Projekt_ehx27@uni-ulm.de                  |
-  | username:         | ehx27@uni-ulm.de                  |
+Starting the rancher hosts will take some time. You can follow the process:
+Rancher agents will be started, and several predefined containers like
+healthchecker, or scheduler will be installed. When the hosts are up, you can
+browse through the utilisation metrics and the deployed containers in the web
+dashboard. When selecting single containers, you get get statistics about this
+container only, its even possible to get execution shells into containers from
+the dashboard.
 
-* Press the Create button and wait for the virtual machines to be spawned...
-
-Starting the rancher hosts will take some time. You can follow the process: the virtual machines will be created, Docker will be installed, Rancher agents will be installed, and several predefined containers like healthchecker, or scheduler will be started. When the hosts are up, you can browse through the utilisation metrics and the deployed containers in the web dashboard. When selecting single containers, you get 
-get statistics about this container only, its even possible to get execution shells into containers from the dashboard.
-
-Finally install the Rancher CLI tool inside the rancher VM:
+Finally install the Rancher CLI tool inside your initial rancher VM:
 
 ```
 wget -O rancher.tar.gz \
@@ -85,10 +62,10 @@ sudo chmod +x /usr/bin/rancher
 
 Besides the web dashboard you can now connect to rancher via CLI.
 
-To authenticate in the CLI, you need an API Key. In the web dashboard, to to 
+To authenticate in the CLI, you need an API Key. In the web dashboard, go to 
 `API > Keys` and press the `Add Account API Key` Button. Enter any name and press create. You will get an Access Key and a Secret Key. Copy both to a place where you will find them later.
 
-To use the CLI, run `rancher config` and provide `URL []:  http://134.60.47.XYZ:8080/v1`, the Access Key and Secret Key from before.
+To use the CLI, run `rancher config` and provide `URL []:  http://134.60.64.XYZ:8080/v1`, the Access Key and Secret Key from before.
 Validate that the login works with `rancher ps`.
 
 ## Task: Start Mediawiki via Rancher
@@ -100,20 +77,20 @@ version: '2'
 services:
     web:
         build: Mediawiki
-        image: bwcloud-fipXYZ.rz.uni-ulm.de:5000/mediawiki
+        image: omistack-vmXYZ.e-technik.uni-ulm.de:5000/mediawiki
         ports:
           - 80:80
     database:
         build: Database
-        image: bwcloud-fipXYZ.rz.uni-ulm.de:5000/database
+        image: omistack-vmXYZ.e-technik.uni-ulm.de:5000/database
 ```
 
 Then build and push the images to your registry:
 
 ```
 docker-compose build
-docker push bwcloud-fipXYZ.rz.uni-ulm.de:5000/database
-docker push bwcloud-fipXYZ.rz.uni-ulm.de:5000/mediawiki
+docker push omistack-vmXYZ.e-technik.uni-ulm.de:5000/database
+docker push omistack-vmXYZ.e-technik.uni-ulm.de:5000/mediawiki
 ```
 
 Now we are ready to import the docker-compose file as a `stack` into Rancher, either by web dashboard or by cli.
@@ -124,11 +101,11 @@ In the web dashboard, go to "Stacks", and press the "Add Stack" button. Add as n
 version: '2'
 services:
     web:
-        image: bwcloud-fipXYZ.rz.uni-ulm.de:5000/mediawiki
+        image: omistack-vmXYZ.e-technik.uni-ulm.de:5000/mediawiki
         ports:
           - 80:80
     database:
-        image: bwcloud-fipXYZ.rz.uni-ulm.de:5000/database
+        image: omistack-vmXYZ.e-technik.uni-ulm.de:5000/database
 ```
 
 Mediawiki will be started. Try to access it. You will recognize, that it is only accessible via the floating ip of the host where the web container is running. 
