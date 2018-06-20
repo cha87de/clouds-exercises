@@ -1,7 +1,7 @@
 resource "openstack_compute_secgroup_v2" "dockerregistry" {
   name        = "dockerregistry"
   description = "Allows access to registry service via tcp 5000"
-  region	= "Ulm"
+  region      = "RegionOne"
 
   rule {
     from_port   = 5000
@@ -9,13 +9,12 @@ resource "openstack_compute_secgroup_v2" "dockerregistry" {
     ip_protocol = "tcp"
     cidr        = "0.0.0.0/0"
   }
-
 }
 
 resource "openstack_compute_secgroup_v2" "rancher" {
   name        = "rancher"
   description = "Allows access to registry service via tcp 8080"
-  region	= "Ulm"
+  region      = "RegionOne"
 
   rule {
     from_port   = 8080
@@ -29,14 +28,14 @@ resource "openstack_compute_secgroup_v2" "rancher" {
     to_port     = 80
     ip_protocol = "tcp"
     cidr        = "0.0.0.0/0"
-  }  
+  }
 
   rule {
     from_port   = 2376
     to_port     = 2376
     ip_protocol = "tcp"
     cidr        = "0.0.0.0/0"
-  }  
+  }
 
   rule {
     from_port   = 4500
@@ -50,6 +49,5 @@ resource "openstack_compute_secgroup_v2" "rancher" {
     to_port     = 500
     ip_protocol = "udp"
     cidr        = "0.0.0.0/0"
-  } 
-
+  }
 }

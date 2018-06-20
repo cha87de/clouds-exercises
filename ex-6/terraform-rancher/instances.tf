@@ -1,31 +1,101 @@
 # define cloud-init files and resolve variables from terraform
-data "template_file" "init_ranchernode" {
-    template = "${file("init_ranchernode")}"
+data "template_file" "init_ranchermaster" {
+  template = "${file("init_ranchermaster")}"
 }
 
-# create dockernode 1
-resource "openstack_compute_instance_v2" "rancher" {
-	name = "rancher"
-	image_name = "Ubuntu Server 16.04 RAW"
-	flavor_name = "m1.small"
-	key_pair = "YOUR KEY PAIR"
-	security_groups = ["default", "dockerregistry", "rancher"]
-	region	= "Ulm"
-	network {
-		uuid = "${openstack_networking_network_v2.private-net.id}"
-	}
-	user_data = "${data.template_file.init_ranchernode.rendered}"
-}
-resource "openstack_networking_floatingip_v2" "fip_rancher" {
-  pool = "routed"
-  region = "Ulm"  
-}
-resource "openstack_compute_floatingip_associate_v2" "fip_rancher" {
-  floating_ip = "${openstack_networking_floatingip_v2.fip_rancher.address}"
-  instance_id = "${openstack_compute_instance_v2.rancher.id}"
-  region = "Ulm"
-}
-output "rancher_floating_ip" {
-  value = "${openstack_networking_floatingip_v2.fip_rancher.address}"
+data "template_file" "init_rancherhost" {
+  template = "${file("init_rancherhost")}"
 }
 
+# create rancher-master
+resource "openstack_compute_instance_v2" "rancher-master" {
+  name            = "rancher-master"
+  image_name      = "ubuntu-1604"
+  flavor_name     = "small"
+  key_pair        = "YOUR KEY PAIR"
+  security_groups = ["default", "dockerregistry", "rancher"]
+  region          = "RegionOne"
+
+  network {
+    uuid = "${openstack_networking_network_v2.private-net.id}"
+  }
+
+  user_data = "${data.template_file.init_ranchermaster.rendered}"
+}
+
+resource "openstack_networking_floatingip_v2" "fip_rancher-master" {
+  pool   = "extnet"
+  region = "RegionOne"
+}
+
+resource "openstack_compute_floatingip_associate_v2" "fip_rancher-master" {
+  floating_ip = "${openstack_networking_floatingip_v2.fip_rancher-master.address}"
+  instance_id = "${openstack_compute_instance_v2.rancher-master.id}"
+  region      = "RegionOne"
+}
+
+output "rancher-master_floating_ip" {
+  value = "${openstack_networking_floatingip_v2.fip_rancher-master.address}"
+}
+
+# create rancher-host1
+
+resource "openstack_compute_instance_v2" "rancher-host1" {
+  name            = "rancher-host1"
+  image_name      = "ubuntu-1604"
+  flavor_name     = "small"
+  key_pair        = "YOUR KEY PAIR"
+  security_groups = ["default"]
+  region          = "RegionOne"
+
+  network {
+    uuid = "${openstack_networking_network_v2.private-net.id}"
+  }
+
+  user_data = "${data.template_file.init_rancherhost.rendered}"
+}
+
+resource "openstack_networking_floatingip_v2" "fip_rancher-host1" {
+  pool   = "extnet"
+  region = "RegionOne"
+}
+
+resource "openstack_compute_floatingip_associate_v2" "fip_rancher-host1" {
+  floating_ip = "${openstack_networking_floatingip_v2.fip_rancher-host1.address}"
+  instance_id = "${openstack_compute_instance_v2.rancher-host1.id}"
+  region      = "RegionOne"
+}
+
+output "rancher-host1_floating_ip" {
+  value = "${openstack_networking_floatingip_v2.fip_rancher-host1.address}"
+}
+
+resource "openstack_compute_instance_v2" "rancher-host2" {
+  name            = "rancher-host2"
+  image_name      = "ubuntu-1604"
+  flavor_name     = "small"
+  key_pair        = "YOUR KEY PAIR"
+  security_groups = ["default"]
+  region          = "RegionOne"
+
+  network {
+    uuid = "${openstack_networking_network_v2.private-net.id}"
+  }
+
+  user_data = "${data.template_file.init_rancherhost.rendered}"
+}
+
+resource "openstack_networking_floatingip_v2" "fip_rancher-host2" {
+  pool   = "extnet"
+  region = "RegionOne"
+}
+
+resource "openstack_compute_floatingip_associate_v2" "fip_rancher-host2" {
+  floating_ip = "${openstack_networking_floatingip_v2.fip_rancher-host2.address}"
+  instance_id = "${openstack_compute_instance_v2.rancher-host2.id}"
+  region      = "RegionOne"
+}
+
+output "rancher-host2_floating_ip" {
+  value = "${openstack_networking_floatingip_v2.fip_rancher-host2.address}"
+}
