@@ -16,7 +16,15 @@ echo "upstream myproject {
     location / {
       proxy_pass http://myproject;
     }
-  }" > /etc/nginx/conf.d/wiki.conf
+    location ~ ^/(status)$ {
+      stub_status on;
+      access_log off;
+      allow 127.0.0.1;
+      allow 172.0.0.0/8;
+      deny all;
+    }    
+  }
+  " > /etc/nginx/conf.d/wiki.conf
 
 rm /etc/nginx/sites-enabled/default
 
