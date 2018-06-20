@@ -1,7 +1,7 @@
 resource "openstack_compute_secgroup_v2" "web" {
   name        = "web"
   description = "Allows access to web service via tcp 80"
-  region	= "Ulm"
+  region      = "RegionOne"
 
   rule {
     from_port   = 80
@@ -9,13 +9,12 @@ resource "openstack_compute_secgroup_v2" "web" {
     ip_protocol = "tcp"
     cidr        = "0.0.0.0/0"
   }
-
 }
 
 resource "openstack_compute_secgroup_v2" "dockerregistry" {
   name        = "dockerregistry"
   description = "Allows access to registry service via tcp 5000"
-  region	= "Ulm"
+  region      = "RegionOne"
 
   rule {
     from_port   = 5000
@@ -23,13 +22,12 @@ resource "openstack_compute_secgroup_v2" "dockerregistry" {
     ip_protocol = "tcp"
     cidr        = "0.0.0.0/0"
   }
-
 }
 
 resource "openstack_compute_secgroup_v2" "monitoring" {
   name        = "monitoring"
   description = "Allows access to influxdata monitoring stack"
-  region	= "Ulm"
+  region      = "RegionOne"
 
   rule {
     from_port   = 8086
@@ -50,6 +48,5 @@ resource "openstack_compute_secgroup_v2" "monitoring" {
     to_port     = 8888
     ip_protocol = "tcp"
     cidr        = "0.0.0.0/0"
-  }  
-
+  }
 }
