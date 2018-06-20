@@ -1,5 +1,5 @@
 ---
-date: 2018-06-14
+date: 2018-06-21
 subtitle: "Exercise 6: Container Orchestration 1"
 ---
 # Exercise 6: Container Orchestration 1
