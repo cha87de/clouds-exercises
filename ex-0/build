@@ -1,0 +1,9 @@
+#!/bin/bash
+source ../build
+
+EXERCISE_FILES=""
+EXTRA_ARTIFACTS="" # excluding: exercise.pdf, solution.pdf
+
+#buildExercise
+#buildSolution
+buildSlides

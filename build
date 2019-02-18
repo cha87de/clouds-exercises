@@ -1,12 +1,21 @@
 #!/bin/bash
 set -x
 
+function buildSlides(){
+    cat ../template/default.properties > slides-1.md
+    cp slides.md slides.md.2
+    sed -i "1s/.*/$var/" slides.md.2
+    cat slides.md.2 >> slides-1.md
+    pandoc slides-1.md -t beamer -o slides.pdf --template ../template/beamer.latex
+    rm slides-1.md slides.md.2
+}
+
 function buildSolution(){
     cat ../template/default.properties > solution.md.1
     cp solution.md solution.md.2
     sed -i "1s/.*/$var/" solution.md.2
     cat solution.md.2 >> solution.md.1
-    pandoc --latex-engine=xelatex solution.md.1 -t latex -o solution.pdf --template ../template/eisvogel.latex
+    pandoc --pdf-engine=xelatex solution.md.1 -t latex -o solution.pdf --template ../template/eisvogel.latex
     rm solution.md.1 solution.md.2
 }
 
@@ -27,12 +36,11 @@ function buildExercise(){
         echo "" >> exercise.md
     done
 
-    pandoc --latex-engine=xelatex exercise.md -t latex -o exercise.pdf --template ../template/eisvogel.latex
+    pandoc --pdf-engine=xelatex exercise.md -t latex -o exercise.pdf --template ../template/eisvogel.latex
     rm exercise.md
 }
 
 function buildAll(){
-
     exportArtifacts=$1; shift
 
     if [[ $exportArtifacts == "export" ]]; then
@@ -41,6 +49,10 @@ function buildAll(){
 
     export artefactList=""
 
+    # build overview
+    buildSlides
+
+    # build each exercise
     for ex in $(ls | grep ex-); do
         
         echo "build exercise $ex ..."
@@ -51,8 +63,10 @@ function buildAll(){
             mkdir -p ../artifacts/$ex
             cp exercise.pdf ../artifacts/$ex/
             cp solution.pdf ../artifacts/$ex/
+            cp slides.pdf ../artifacts/$ex/
             export artefactList="$artefactList artifacts/$ex/exercise.pdf"                
             export artefactList="$artefactList artifacts/$ex/solution.pdf"
+            export artefactList="$artefactList artifacts/$ex/slides.pdf"
             echo "EXTRA_ARTIFACTS: $EXTRA_ARTIFACTS"                
             for artifact in $EXTRA_ARTIFACTS; do
                 cp $artifact ../artifacts/$ex/
@@ -62,6 +76,7 @@ function buildAll(){
         cd $p
     done
 
+    # final build tasks
     if [[ $exportArtifacts == "export" ]]; then
         # merge pdfs to one script file
         echo "merge pdfs to one script file"
@@ -71,7 +86,7 @@ function buildAll(){
 }
 
 if [[ ${BASH_SOURCE[0]} != $0 ]]; then
-  export -f buildSolution buildExercise
+  export -f buildSolution buildExercise buildSlides
 else
   buildAll "${@}"
   exit $?
