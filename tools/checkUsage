@@ -1,0 +1,9 @@
+#!/bin/bash
+
+function checkUsage(){
+        project="clouds2018-$1"
+	echo $project
+	openstack server list --project "$project"
+}
+
+#checkUsage hauser

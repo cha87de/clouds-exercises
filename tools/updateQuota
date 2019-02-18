@@ -1,0 +1,30 @@
+#!/bin/bash
+
+function setDefaultQuota(){
+        project="clouds2018-$1"
+
+        openstack quota set \
+                --cores 20 \
+                --fixed-ips -1 \
+                --injected-file-size 10240 \
+                --injected-files 5 \
+                --instances 8 \
+                --key-pairs 10 \
+                --ram 16384 \
+                --server-groups 10 \
+                --server-group-members 10 \
+                --gigabytes 50 \
+                --snapshots 10 \
+                --volumes 10 \
+                --floating-ips 4 \
+                --secgroup-rules 100 \
+                --secgroups 10 \
+                --networks 5 \
+                --subnets 10 \
+                --ports 500 \
+                --routers 2 \
+                --rbac-policies 10 \
+                $project
+}
+
+#setDefaultQuota hauser
