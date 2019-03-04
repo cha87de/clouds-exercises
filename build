@@ -30,7 +30,7 @@ function buildSolution(){
     cat ../template/default.properties > solution-1.md
     cp solution.md solution-2.md
     sed -i "1s/.*/$var/" solution-2.md
-    cat solution.md.2 >> solution-1.md
+    cat solution-2.md >> solution-1.md
     pandoc --pdf-engine=xelatex solution-1.md -t latex -o solution.pdf --template ../template/eisvogel.latex
     rm solution-1.md solution-2.md
 }
@@ -78,6 +78,11 @@ function buildAll(){
         if [[ $exportArtifacts == "export" ]]; then
             mkdir -p ../artifacts/$ex
 
+            if [ -f slides.pdf ]; then
+                cp slides.pdf ../artifacts/$ex/
+                export artefactList="$artefactList artifacts/$ex/slides.pdf"
+            fi
+
             if [ -f exercise.pdf ]; then
                 cp exercise.pdf ../artifacts/$ex/
                 export artefactList="$artefactList artifacts/$ex/exercise.pdf"
@@ -86,11 +91,6 @@ function buildAll(){
             if [ -f solution.pdf ]; then
                 cp solution.pdf ../artifacts/$ex/
                 export artefactList="$artefactList artifacts/$ex/solution.pdf"
-            fi
-
-            if [ -f slides.pdf ]; then
-                cp slides.pdf ../artifacts/$ex/
-                export artefactList="$artefactList artifacts/$ex/slides.pdf"
             fi
 
             echo "EXTRA_ARTIFACTS: $EXTRA_ARTIFACTS"                
