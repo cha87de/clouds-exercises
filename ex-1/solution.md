@@ -2,6 +2,7 @@
 date: SummerSchool 2019, Curitiba
 subtitle: "Solution for Exercise 1"
 ---
+
 # Lesson 1: OpenStack Basics
 
 ## Question: Hypervisors and Virtual Machines

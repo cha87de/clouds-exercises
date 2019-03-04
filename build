@@ -77,12 +77,22 @@ function buildAll(){
 
         if [[ $exportArtifacts == "export" ]]; then
             mkdir -p ../artifacts/$ex
-            cp exercise.pdf ../artifacts/$ex/
-            cp solution.pdf ../artifacts/$ex/
-            cp slides.pdf ../artifacts/$ex/
-            export artefactList="$artefactList artifacts/$ex/exercise.pdf"                
-            export artefactList="$artefactList artifacts/$ex/solution.pdf"
-            export artefactList="$artefactList artifacts/$ex/slides.pdf"
+
+            if [ -f exercise.pdf ]; then
+                cp exercise.pdf ../artifacts/$ex/
+                export artefactList="$artefactList artifacts/$ex/exercise.pdf"
+            fi
+
+            if [ -f solution.pdf ]; then
+                cp solution.pdf ../artifacts/$ex/
+                export artefactList="$artefactList artifacts/$ex/solution.pdf"
+            fi
+
+            if [ -f slides.pdf ]; then
+                cp slides.pdf ../artifacts/$ex/
+                export artefactList="$artefactList artifacts/$ex/slides.pdf"
+            fi
+
             echo "EXTRA_ARTIFACTS: $EXTRA_ARTIFACTS"                
             for artifact in $EXTRA_ARTIFACTS; do
                 cp $artifact ../artifacts/$ex/
