@@ -1,5 +1,5 @@
 ---
-date: 2018-06-21
+date: SummerSchool 2019, Curitiba
 subtitle: "Solution for Exercise 6"
 ---
 # Answers to questions

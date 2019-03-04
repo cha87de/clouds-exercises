@@ -26,7 +26,7 @@ https://docs.docker.com/engine/swarm/how-swarm-mode-works/services/
 
 ## Task: Setup Docker Swarm
 
-Deploy three virtual machines with docker installed on OpenStack. We can use the terraform bundle "terraform-dockernodes.zip" to automatise this process.
+Deploy three virtual machines with docker installed on OpenStack. We can use the terraform bundle "terraform-dockernodes.zip" to automatise this process. Update the `provider.tf` as we did in exercise 4.
 
 Log in to the three VMs via SSH. Validate that Docker is running (e.g. via `docker ps -a`).
 Docker Swarm is inactive, validate output of `docker info` and search for line `Swarm: inactive`.
@@ -107,7 +107,7 @@ docker run -d -p 5000:5000 --restart=always --name registry \
 
 Next, copy the Dockerfiles from exercise 5 to dockernode1.
 Change the `docker-compose.yml` file to the following content
-(replace `omistack-vmXYZ` to fit your `$publicHostname`):
+(replace `omistack-vmXYZ.e-technik.uni-ulm.de` to fit your `$publicHostname`!):
 
 ```
 version: '3'

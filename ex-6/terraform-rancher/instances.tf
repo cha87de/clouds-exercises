@@ -10,11 +10,11 @@ data "template_file" "init_rancherhost" {
 # create rancher-master
 resource "openstack_compute_instance_v2" "rancher-master" {
   name            = "rancher-master"
-  image_name      = "ubuntu-1604"
-  flavor_name     = "small"
-  key_pair        = "YOUR KEY PAIR"
-  security_groups = ["default", "dockerregistry", "rancher"]
-  region          = "RegionOne"
+  image_name      = "${local.image}"
+  flavor_name     = "${local.small_flavour}"
+  key_pair        = "${local.keypair}"
+  region          = "${local.region}"  
+  security_groups = ["default", "web", "dockerregistry"]
 
   network {
     uuid = "${openstack_networking_network_v2.private-net.id}"
@@ -24,14 +24,14 @@ resource "openstack_compute_instance_v2" "rancher-master" {
 }
 
 resource "openstack_networking_floatingip_v2" "fip_rancher-master" {
-  pool   = "extnet"
-  region = "RegionOne"
+  pool   = "${local.extnet_name}"
+  region = "${local.region}"
 }
 
 resource "openstack_compute_floatingip_associate_v2" "fip_rancher-master" {
   floating_ip = "${openstack_networking_floatingip_v2.fip_rancher-master.address}"
   instance_id = "${openstack_compute_instance_v2.rancher-master.id}"
-  region      = "RegionOne"
+  region = "${local.region}" 
 }
 
 output "rancher-master_floating_ip" {
@@ -42,11 +42,11 @@ output "rancher-master_floating_ip" {
 
 resource "openstack_compute_instance_v2" "rancher-host1" {
   name            = "rancher-host1"
-  image_name      = "ubuntu-1604"
-  flavor_name     = "small"
-  key_pair        = "YOUR KEY PAIR"
+  image_name      = "${local.image}"
+  flavor_name     = "${local.small_flavour}"
+  key_pair        = "${local.keypair}"
+  region          = "${local.region}"  
   security_groups = ["default"]
-  region          = "RegionOne"
 
   network {
     uuid = "${openstack_networking_network_v2.private-net.id}"
@@ -56,14 +56,14 @@ resource "openstack_compute_instance_v2" "rancher-host1" {
 }
 
 resource "openstack_networking_floatingip_v2" "fip_rancher-host1" {
-  pool   = "extnet"
-  region = "RegionOne"
+  pool   = "${local.extnet_name}"
+  region = "${local.region}"
 }
 
 resource "openstack_compute_floatingip_associate_v2" "fip_rancher-host1" {
   floating_ip = "${openstack_networking_floatingip_v2.fip_rancher-host1.address}"
   instance_id = "${openstack_compute_instance_v2.rancher-host1.id}"
-  region      = "RegionOne"
+  region          = "${local.region}" 
 }
 
 output "rancher-host1_floating_ip" {
@@ -72,11 +72,12 @@ output "rancher-host1_floating_ip" {
 
 resource "openstack_compute_instance_v2" "rancher-host2" {
   name            = "rancher-host2"
-  image_name      = "ubuntu-1604"
-  flavor_name     = "small"
-  key_pair        = "YOUR KEY PAIR"
+  image_name      = "${local.image}"
+  flavor_name     = "${local.small_flavour}"
+  key_pair        = "${local.keypair}"
+  region          = "${local.region}"
   security_groups = ["default"]
-  region          = "RegionOne"
+
 
   network {
     uuid = "${openstack_networking_network_v2.private-net.id}"
@@ -86,14 +87,14 @@ resource "openstack_compute_instance_v2" "rancher-host2" {
 }
 
 resource "openstack_networking_floatingip_v2" "fip_rancher-host2" {
-  pool   = "extnet"
-  region = "RegionOne"
+  pool   = "${local.extnet_name}"
+  region = "${local.region}"
 }
 
 resource "openstack_compute_floatingip_associate_v2" "fip_rancher-host2" {
   floating_ip = "${openstack_networking_floatingip_v2.fip_rancher-host2.address}"
   instance_id = "${openstack_compute_instance_v2.rancher-host2.id}"
-  region      = "RegionOne"
+  region          = "${local.region}" 
 }
 
 output "rancher-host2_floating_ip" {
