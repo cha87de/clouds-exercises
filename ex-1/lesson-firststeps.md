@@ -1,22 +1,15 @@
 # Lesson 2: First Steps with Omistack
 
+## Introduction
+
 In this lesson, we will register an account for the OpenStack installation at
-our Institute - called Omistack. **Registration may take a few days** - so
-please register in time, in order to proceed with all remaining tasks, lesson 3
-and all the following exercises.
+hand. **Registration may take a while** - so please register in time, in order to proceed with all remaining tasks, lesson 3 and all the following exercises.
 
-## Task: Register at Omistack
+## Task: Register at the OpenStack
 
-In the lecture's moodle course you'll find a post in the forum, titled "Register
-at Omistack". Please leave a short note there, to inform us, that you need an
-account.
-
-Please resume to the **next task only, when you have access to Omistack** - or
-any similar OpenStack. When you have access, make yourself familiar with the
-OpenStack dashboard, located at https://omistack.e-technik.uni-ulm.de
-
-Please note: bwCloud - the University's OpenStack - is due to resource
-shortcomings not capable of hosting us this semester.
+Please resume to the **next task only, when you have access to OpenStack**. When
+you have access, make yourself familiar with the OpenStack dashboard. Navigate
+through the links at the left to remember the dashbaord's sections later on.
 
 ## Task: Create an SSH key
 
@@ -50,40 +43,36 @@ similar to the following ones:
 ## Task: Validate your Network
 
 Before starting your first Instance, a basic virtual network is required, if you
-want to access and hence use your new instance.
+want to access and hence use your new instance via OpenStack's virtual network infrastructure.
 
 In the OpenStack dashboard, click the "Network" item in the menu, then select
-"Routers". You should see one router here. Then click "Network" item and then
-select "Networks". You should see one private network with an IP Subnet
-192.168.0.0/24 here.
+"Networks". You should see at least one entry in the networks table. The networks listed depend on the OpenStack deployment and may differ.
 
-Virtual Networks will be studied in more detail in exercise 3. If you miss the
-router or the private network, please contact us via the Moodle forum.
+Virtual Networks will be studied in more detail in exercise 3. If you miss the network, please inform your instructor.
 
 ## Task: Launch your first Instance
 
 Virtual machines in OpenStack are called "Instances". Let's start your first
-one, by launching an Ubuntu Server.
+one, by launching an Ubuntu Server. To go "Compute", then "Instances". Then click the "Launch Instance" button on the top right.
 
-In the Details tab:
+In the "Launch Instance" popup, in the "Details" step:
 
- - Select "Instances" on the left column and then click the "Launch Instance" button.
- - Select "nova" as availability zone
  - Name your instance e.g. "main_server"
+ - Select "nova" as availability zone
 
-In the Source tab:
+Continue to the "Source" step:
 
  - Select Boot Source: Image
  - Create New Volume: No
- - Select in the list "Ubuntu Server 14.04.2 AMD64 LTS" with the arrow button
+ - Select in the list "Ubuntu Server 16.04" with the arrow button
 
 In the Flavor tab:
 
- - Select "small" as flavor (2 cores, 1GB memory, 10GB disk)
+ - Select "small" as flavor
 
 In the Networks tab:
 
- - Select your private network
+ - The default network should be automatically selected. If not, select it.
 
 In the Security Groups tab:
 
@@ -93,16 +82,16 @@ In the Key Pair tab:
 
  - select the key you previously created (cloud_key)
 
-Finally, launch the virtual machine, by clicking the "Launch Instance" button. This may take from some seconds to a few minutes. The new instance gets a private IP
-address 192.168.0.X assigned automatically.
+Finally, launch the virtual machine, by clicking the "Launch Instance" button. This may take from some seconds to a few minutes. The new instance gets an IP address assigned automatically.
 
-To access the instance from remote, add a so called "Floating IP":
+Depending on your OpenStack deployment, this IP address may be private or public. If you have a private IP, to access the instance from remote, add a so called "Floating IP". If you have a public IP, skip the following steps.
+
+If you have a private IP, add a Floating IP to your instance:
 
  - while the instance is spawning, press the "Associate Floating IP" button, after it was spawned, find this option in the drop down menu next to the "create snapshot" button.
- - If you see "No floating IP addresses allocated", then press the "plus" button to allocate a floating IP in the extnet pool.
+ - If you see "No floating IP addresses allocated", then press the "plus" button to allocate a floating IP in the available pool.
  - Select the new floating IP and press the "Associate" button.
-
-Your instance has now two IP addresses: the private one from before, and a public one 134.60.64.Y. You need this public one to access your instance via SSH.
+ - Your instance has now two IP addresses: the private one from before, and a public one. You need this public one to access your instance via SSH.
 
 ## Task: Access your Instance via SSH
 

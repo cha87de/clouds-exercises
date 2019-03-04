@@ -1,7 +1,7 @@
 #!/bin/bash
 source ../build
 
-EXERCISE_FILES="lesson-openstack.md lesson-omistack.md lesson-mediawiki.md"
+EXERCISE_FILES="lesson-openstack.md lesson-firststeps.md lesson-mediawiki.md"
 EXTRA_ARTIFACTS="" # excluding: exercise.pdf, solution.pdf
 
 buildExercise

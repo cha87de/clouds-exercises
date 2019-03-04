@@ -1,17 +1,22 @@
 ---
-date: 2018-04-26
+date: SummerSchool 2019, Curitiba
 subtitle: "Exercise 1: OpenStack"
 ---
 # Exercise 1: OpenStack
 
-Welcome to exercise 1. This time we will have the following lessons:
+## Overview
+
+This exercise focuses on the basics of Infrastructure as a Service Cloud Computing. The following lessons first introduce Virtual Machines / Hypervisors, then make you familiar with OpenStack. With this foundation, we will use the Mediawiki Software (used for Wikipedia) as an exemplary cloud application throughout this course.
+
+## Lessons
 
  1. [OpenStack Basics](lesson-openstack.md)
- 2. [First Steps with Omistack](lesson-omistack.md)
+ 2. [First Steps with OpenStack](lesson-omistack.md)
  2. [Mediawiki Installation](lesson-mediawiki.md)
 
-## Lessons learned
+[Exercise as PDF](exercise.pdf)
 
- - How OpenStack dashboard can be used to create new virtual machines / instances
- - How to access Cloud servers via SSH from remote
- - How Mediawiki can be installed on an Ubuntu 14.04 server in a Cloud
+## Exercise Solution
+
+* [Solution as Markdown](solution.md)
+* [Solution as PDF](solution.pdf)

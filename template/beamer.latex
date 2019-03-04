@@ -10,6 +10,7 @@
 \usepackage{etex}
 \usepackage{longtable}
 
+\setkeys{Gin}{width=0.8\paperwidth,height=0.8\paperheight,keepaspectratio}
 
 \setbeamercovered{dynamic} % slightly displaying not highlight
 
@@ -81,17 +82,22 @@
     % draw title page as background
     \ifnum\thepage=1\relax
 
-      \node[anchor=east] at (\paperwidth,\paperheight-0.8cm) {\includegraphics[width=0.4\paperwidth]{../template/slides-logo}};
+      
+
+      \node[anchor=west] at (0.2cm,\paperheight-0.8cm) {\includegraphics[width=0.4\paperwidth]{../template/slides-sublogo}};
+
+      \node[anchor=east] at (\paperwidth-0.2cm,\paperheight-0.8cm) {\includegraphics[width=0.4\paperwidth]{../template/slides-logo}};
       \node[anchor=east] at (\paperwidth+0.2cm,\paperheight-3.4cm) {\includegraphics[width=1.1\paperwidth]{../template/slides-title}};
 
       % red bar, main title
       \fill[fill=UulmRed] (0,4.6cm) rectangle (\paperwidth,2.4cm);
-      \node[anchor=south,text width=\paperwidth-1cm] at (0.5\paperwidth,2.7cm) {\color{White}\huge\textbf{\inserttitle}};
+      \node[anchor=south east,text width=0.7\paperwidth, align=right] at (\paperwidth-0.2cm,2.7cm) {\color{White}\huge\textbf{\inserttitle}};
       
-      \node[anchor=west] at (0.1cm,1cm) {\color{UulmBlack}\footnotesize\insertauthor };
-      \node[anchor=west] at (0.1cm,0.6cm) {\color{UulmBlack}\scriptsize\insertinstitute };
+      \node[anchor=south west,text width=0.5\paperwidth-0.1cm] at (0.2cm,1.2cm)   {\color{UulmBlack}\footnotesize\insertauthor };
+      \node[anchor=south west,text width=0.5\paperwidth-0.1cm] at (0.2cm,0.2cm) {\color{UulmBlack}\scriptsize\insertinstitute };
 
-      %\node[anchor=south east] at(\paperwidth,0cm) {\color{PondeGray}\small\insertdate};
+      \node[anchor=south east] at(\paperwidth-0.2cm,1.6cm) {\color{UulmBlue}\normalsize\insertsubtitle};
+      \node[anchor=south east] at(\paperwidth-0.2cm,1cm) {\color{UulmBlue}\small\insertdate};
     \fi
   \end{tikzpicture}
 }
@@ -172,7 +178,7 @@ $endif$
 % Comment these out if you don't want a slide with just the
 % part/section/subsection/subsubsection title:
 \AtBeginPart{\frame{\partpage}}
-\AtBeginSection{\frame{\sectionpage}}
+%\AtBeginSection{\frame{\sectionpage}}
 \AtBeginSubsection{\frame{\subsectionpage}}
 % \AtBeginSubsubsection{\frame{\subsubsectionpage}}
 $if(strikeout)$
@@ -199,6 +205,9 @@ $endfor$
 
 $if(title)$
 \title{$title$}
+$endif$
+$if(subtitle)$
+\subtitle{$subtitle$}
 $endif$
 $if(author)$
 \author{$for(author)$$author$$sep$ \and $endfor$}

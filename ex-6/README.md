@@ -1,9 +1,10 @@
 ---
-date: 2018-06-21
+date: SummerSchool 2019, Curitiba
 subtitle: "Exercise 6: Container Orchestration 1"
 ---
 # Exercise 6: Container Orchestration 1
 
+## Overview
 Welcome to exercise 6. This time we will have the following lessons:
 
 1. [Container Orchestration with Docker Swarm](lesson-swarm.md)

@@ -10,8 +10,6 @@ are multiple ways to install mediawiki,
 [this](https://www.mediawiki.org/wiki/Manual:Installing_MediaWiki) and
 [this](https://www.mediawiki.org/wiki/Manual:Running_MediaWiki_on_Ubuntu) guide
 give the best overview. We follow both guides and execute the described steps.
-If you are not familiar with Linux, the Ubuntu OS or the shell, the
-unix_linux_tutorial.pdf offered on our course start site may prove helpful.
 
 Before we can use the package system (apt-get) of Ubuntu, we should make sure everything is up-to-date.
 
@@ -23,9 +21,9 @@ Afterwards the server will restart and you need to reconnect to it using ssh.
 First, we need to install multiple dependencies required for running the mediawiki installation. As mediawiki is a php application we need a webserver serving the pages, the php5 runtime engine for executing the code and a database as storage backend. We execute the following steps:
 
 1. Install the Apache Webserver - `sudo apt-get install apache2`
-2. Install the mariaDB database. This installation will prompt for a password, enter one and remember it. - `sudo apt-get install mariadb-server`
-3. Install php5 - `sudo apt-get install php5 php5-mysql`
-4. Restart the apache server - `sudo service apache2 restart`
+2. Install the MariaDB database. - `sudo apt-get install mariadb-server`
+3. Install php5 - `sudo apt-get install php php-mysql php-mbstring php-xml libapache2-mod-php`
+4. Restart the apache server - `sudo systemctl restart apache2`
 
 Now we can start to install the mediawiki application:
 
@@ -41,35 +39,42 @@ Now we can start to install the mediawiki application:
 5. Create a symbolic link to the downloaded mediawiki software:
     `sudo ln -s ~/mediawiki-1.30.0 wiki`
 
-You should now be able to see the initial page of mediawiki at http://{ip-of-your-vm}/wiki.
+You should now be able to see the initial page of mediawiki at http://{ip-of-your-vm}/wiki. If the Browser keeps loading and ends with a timeout, check again the Security Groups (is there a Port 80 as suggested in lesson 1?)
 
 Please note:
 
-- don't worry if the sudo command will print an unable to resolve host warning, we will address this later when fixing the server name of apache2
+- don't worry if the sudo command will print an "unable to resolve host warning"
 - you should not need to worry about the version number of mediawiki, choose the latest version found on the mediawiki page
 - you cannot download the files from your browser as you want to install the application in a VM. Instead you have to download it from within the VM for instance by using the wget or curl tools. (Or you have to later copy them to the VM using scp)
-- mariaDB is a fork of mysql. It offers the same client and SQL Syntax. So don't be confused if some of the later points mention mysql.
+- MariaDB is a fork of MySQL. It offers the same client and SQL Syntax. So don't be confused if some of the later points mention mysql.
 - don't worry if the restart command of the apache2 server outputs a warning (server name not found). Everything is fine and we will address this problem later on.
 
 ## Task: Setup Database
 
 When accessing your wiki in the current state, you will be notified that you need to configure it first. For this purpose we first of all need to set up the database.
 
+To secure your database, first run `sudo mysql_secure_installation`, accept all default suggestions, and define a root password (use it later in "PASSWORD_FROM_BEFORE").
+
 1. Connect to the database using the mysql command line client:
-    `mysql -u root -p`
+    `sudo mysql`
 
-2. In the following prompt enter the password you created for the database in the installation step.
+2. Before we continue, we have to fix the root password:
+    `UPDATE mysql.user SET password=password('PASSWORD_FROM_BEFORE') WHERE user='root'; UPDATE mysql.user SET plugin='' WHERE user='root';`
 
-3. Create a new database for the wiki:
+3. In the following prompt enter the password you created for the database in the installation step.
+
+4. Create a new database for the wiki:
     `CREATE DATABASE wikidb;`
 
-4. Create a new database user and grant him all privileges for the database, replace password by a password of your choice and remember it:
-    `GRANT ALL PRIVILEGES ON wikidb.* TO 'wikiuser'@'localhost' IDENTIFIED BY 'password';`
+5. Create a new database user and grant him all privileges for the database, replace password by a password of your choice and remember it:
+    ```
+    GRANT ALL PRIVILEGES ON wikidb.* TO 'wikiuser'@'localhost' IDENTIFIED BY 'password';
+    ```
 
-5. Updated the privileges:
+6. Updated the privileges:
     `flush privileges;`
 
-6. Exit the mysql client:
+7. Exit the mysql client:
     `exit`
 
 Notes:

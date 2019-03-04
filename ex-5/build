@@ -6,6 +6,7 @@ EXTRA_ARTIFACTS="dockerfiles.zip" # excluding: exercise.pdf, solution.pdf
 
 buildExercise
 buildSolution
+buildSlides
 
 # build zip files
 zip -r dockerfiles.zip dockerfiles

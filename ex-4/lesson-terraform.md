@@ -7,7 +7,7 @@ We will now create the mediawiki from scratch - automated!
 
 Terraform runs on your workstation. It reads a terraform script from your file system, and then connects to the specified cloud platform to create the infrastructure.
 
-Download [1] and install [2] the newest version (v0.11.7) of Terraform on your workstation. There might be a package for your linux distribution.
+Download [1] and install [2] the newest version (v0.11.11) of Terraform on your workstation. There might be a package for your linux distribution.
 
 [1] https://www.terraform.io/downloads.html
 
@@ -15,16 +15,22 @@ Download [1] and install [2] the newest version (v0.11.7) of Terraform on your w
 
 ## Task: Deploy Mediawiki with Terraform
 
-Download and extract the `terraform.zip` file from Moodle to your workstation, where you installed terraform.
+Download and extract the `terraform.zip` file to your workstation, where you installed terraform.
 The extracted folder will be named `working directory` in the following.
 It contains several terraform files and bash scripts, which are necessary to deploy mediawiki on OpenStack.
 
-Before you can deploy the mediawiki with terraform, please change your OpenStack username and tenant. 
-In the working directory, edit the file `provider.tf` and change `xyz12` to your user id. Look up the
-name of your ssh key pair in OpenStack (via Access & Security, Key Pairs), edit the file `instances.tf`
-and replace the existing name in the field `key_pair` with your ssh key name. 
-If you are comfortable with writing your password in the password field, you can start right away. 
-But there's a more secure way for your password (tested with linux bash): 
+Before you can deploy the mediawiki with terraform, we need to add your personal
+account to the configuration. In the working directory, edit the file
+`provider.tf` and set the `user_name`, `tenant_name` and `auth_url` - you can
+find these values on the OpenStack dashboard at "Project > API Access > View Credentials".
+
+Also in the `provider.tf` file, set the keypair name you previously created in
+OpenStack. Look up the name of your ssh key pair in OpenStack via Access &
+Security, Key Pairs. 
+
+If you are comfortable with writing your password in the password field, you can
+start right away. But there's a more secure way for your password (tested with
+linux bash): 
 
  - open a new terminal
  - navigate to the working directory
@@ -68,3 +74,5 @@ to see how the system can handle requests with 3, 4, or even 5 mediawiki vms.
  - How does Terraform help you with scaling elastically?
 
  - Can you imagine how to automatically scale your setup when the load increases/decreases?
+
+ - Terraform destroys resources and rebuilds them on changes. E.g. for our Database, where is the right place to store the application state?

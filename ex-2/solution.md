@@ -1,8 +1,10 @@
 ---
-date: 2018-05-17
+date: SummerSchool 2019, Curitiba
 subtitle: "Solution for Exercise 2"
 ---
 # Lesson 1: Monitoring with InfluxData
+
+## How your Setup should look like
 
 You should have two instances in Openstack:
 

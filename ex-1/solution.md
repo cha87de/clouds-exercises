@@ -1,5 +1,5 @@
 ---
-date: 2018-05-03
+date: SummerSchool 2019, Curitiba
 subtitle: "Solution for Exercise 1"
 ---
 # Lesson 1: OpenStack Basics
@@ -42,9 +42,11 @@ bare metal, Type 2 runs on top of an operating system). Examples: XEN (Type 1), 
 
 Your first instance in Openstack should look like follows:
 
-![First instance in Openstack](imgs/firstinstance.png)
+![First instance in Openstack](imgs/firstinstance.png){ width=90% }
 
 # Lesson 3: Install Mediawiki Application
+
+## How the setup looks like
 
 The setup looks as follows at the moment: one virtual machine, based on an Ubuntu 14.04 operating system, with an Apache2 web server and a MariaDB database server.
 

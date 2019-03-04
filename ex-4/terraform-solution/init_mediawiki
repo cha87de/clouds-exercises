@@ -2,7 +2,7 @@
 sudo -s
 
 apt-get update
-apt-get install -y apache2 php5 php5-mysql
+apt-get install -y apache2 php php-mysql php-mbstring php-xml libapache2-mod-php
 
 service apache2 restart
 
@@ -59,7 +59,7 @@ wfLoadSkin( "Vector" );
 
 # install monitoring
 curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
-echo "deb https://repos.influxdata.com/ubuntu trusty stable" \
+echo "deb https://repos.influxdata.com/ubuntu xenial stable" \
     | sudo tee /etc/apt/sources.list.d/influxdb.list
 sudo apt-get update && sudo apt-get install -y telegraf
 ## configure telegraf

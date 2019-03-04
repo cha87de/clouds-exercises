@@ -1,5 +1,5 @@
 ---
-date: 2018-06-07
+date: SummerSchool 2019, Curitiba
 subtitle: "Solution for Exercise 4"
 ---
 # Answers to questions
@@ -30,6 +30,27 @@ subtitle: "Solution for Exercise 4"
   Scalability means to add more resources to the application. While elasticity means, to add
   and remove the application's resources on demand. One example: add or remove more 
   mediawiki vms automatically, depending on the actual requests per second measured on the loadbalancer.
+
+### Question: Pet vs. Cattle
+
+* What is the definition of "Pet" servers, what of "Cattle" servers?
+  
+  - Pet: manually built, managed and "hand fed". Indispensable system, never can be down.
+  - Cattle: Arrays of servers, automated deployments. Servers can fail and will be replaced.
+
+* What are the benefits / drawbacks of "Cattle"?
+
+  - Drawback: Automation requires addition effort
+  - Benefit: Cattle allow on the fly horizontal scaling, and deployments to make use of Cloud computing
+
+* How are the essential characteristics of Cloud Computing enabling "Cattles"?
+
+  The automated deployments of Cattle servers, and the awareness of application
+  state make use of the essential characteristics like rapid elasticity and
+  on-demand self-service. The other way round, Cattle needs a system for
+  resource pooling, to allocate new virtual servers within short time. 
+  
+*Without the concept of cattle, the essential characteristics of cloud computing may not be fully used. A simple virtualisation system may be sufficient for pets.*
 
 ### Question: Infrastructure and Application Deployment
 
@@ -77,6 +98,14 @@ subtitle: "Solution for Exercise 4"
   But basically terraform is not meant to run as a service or supervise workloads. 
   We will learn new tools in a few exercises, which can scale automatically.
 
+*Terraform destroys resources and rebuilds them on changes. E.g. for our Database, where is the right place to store the application state?*
+
+  Working with "Cattle" servers and automated deployments means, that
+  application state is handled like but separated from compute resources. State
+  can be handled by the application itself (e.g. using an Object Store like
+  Swift or Amazon S3) or by using Block Devices (e.g. via OpenStack Cinder).
+  Terraform can create and attach Cinder volumes to instances, to persist the
+  application state independently of the instance itself.
 
 # Solution for practical part
 
@@ -94,11 +123,11 @@ Changes to instances.tf are required. Copy the following code block and paste it
 # create first mediawiki instance
 resource "openstack_compute_instance_v2" "mediawiki-1" {
 	name = "mediawiki-1"
-	image_name = "Ubuntu Server 14.04 RAW"
-	flavor_name = "m1.small"
-	key_pair = "christopher-uulm"
+	image_name = "..."
+	flavor_name = "..."
+	key_pair = "..."
 	security_groups = ["default"]
-	region	= "Ulm"
+	region	= "..."
 	network {
 		uuid = "${openstack_networking_network_v2.private-net.id}"
 	}
@@ -115,11 +144,11 @@ Add another `openstack_compute_instance_v2` resource to the instance.tf file, do
 ```
 resource "openstack_compute_instance_v2" "monitoring" {
 	name = "monitoring"
-	image_name = "Ubuntu Server 16.04 RAW"
-	flavor_name = "m1.small"
-	key_pair = "christopher-uulm"
+	image_name = "..."
+	flavor_name = ..."
+	key_pair = "..."
 	security_groups = ["default", "monitoring"]
-	region	= "Ulm"
+	region	= "..."
 	network {
 		uuid = "${openstack_networking_network_v2.private-net.id}"
 	}
@@ -203,19 +232,6 @@ echo "[global_tags]
 service telegraf restart
 ```
 
-Make sure to replace the line 
-
-```
-echo "deb https://repos.influxdata.com/ubuntu xenial stable" \
-```
-
-which works for Ubuntu 16.04 only, to
-
-```
-echo "deb https://repos.influxdata.com/ubuntu trusty stable" \
-```
-
-for Ubuntu 14.04. Also change the inputs as necessary. 
 The snippet above will work on the loadbalancer vm, since we use the `inputs.nginx` input adaptor.
 
 You may have noticed the variable `${monitoring-ip}` in the snippet above. This variable needs to be passed through from terraform.

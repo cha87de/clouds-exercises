@@ -27,13 +27,12 @@ Create a new instance on OpenStack:
 
 - Name: monitoring
 - Source: Create new Volume set to "No", then select Ubuntu Server 16.04 (ubuntu-1604)
-- Flavor: select "medium" (4 cores, 4GB memory, 10GB disk)
+- Flavor: select "small"
 
 - Select both the default and the monitoring security groups
 - Validate that your ssh key is selected
 
-Then launch the instance, and attach a public floating ip.
-Log in via SSH to the new vm with username "ubuntu" and the public IP you got assigned. In the new vm, install InfluxDB and Chronograf:
+Then launch the instance (attach a public floating ip as before if necessary). Log in via SSH to the new vm with username "ubuntu" and the public IP you got assigned. In the new vm, install InfluxDB and Chronograf:
 
 ```
 curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
@@ -65,7 +64,7 @@ Now that you have InfluxDB and Chronograf running, what ports are used by Influx
 Hint: In the monitoring VM run `sudo netstat -tulpen` to get all ports that are open. Find the InfluxDB application.
 
 ## Task: Add monitoring to mediawiki 
-Next, connect via SSH to the VM hosting your mediawiki. Let's install Telegraf, which will collect monitoring statistics and send it to the monitoring VM.
+Next, connect via SSH to the VM hosting your **mediawiki**. Let's install Telegraf, which will collect monitoring statistics and send it to the monitoring VM.
 
 ```
 curl -sL https://repos.influxdata.com/influxdb.key | sudo apt-key add -
@@ -78,7 +77,7 @@ sudo service telegraf start
 
 We need to configure telegraf to point to your monitoring vm. Open as root (with sudo) e.g. with vim the file /etc/telegraf/telegraf.conf. In the `[[outputs.influxdb]]` section change the urls field from `urls = ["http://localhost:8086"]` to point to the IP address of your monitoring vm.
 
-Restart telegraf with `service telegraf restart` and check the Chronograf dashboard. You should see monitoring data from host "main-server" now. You will see the basic system metrics of this vm. Let's add monitoring data from apache and mariadb next. Re-open the file /etc/telegraf/telegraf.conf and uncomment the following lines:
+Restart telegraf with `sudo systemctl restart telegraf` and check the Chronograf dashboard. You should see monitoring data from host "main-server" now. You will see the basic system metrics of this vm. Let's add monitoring data from apache and mariadb next. Re-open the file /etc/telegraf/telegraf.conf and uncomment the following lines:
 
 ```
 ...

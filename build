@@ -3,11 +3,27 @@ set -x
 
 function buildSlides(){
     cat ../template/default.properties > slides-1.md
-    cp slides.md slides.md.2
+
+    # move readme content
+    cp README.md slides.md.2
     sed -i "1s/.*/$var/" slides.md.2
     cat slides.md.2 >> slides-1.md
+
+    # move exercise content
+    #for file in $EXERCISE_FILES ; do
+    #    cat $file >> slides-1.md
+    #    echo "" >> slides-1.md
+    #done
+
+    # move solution content (if exists)
+    #if [ -f solution.md ]; then
+    #    cp solution.md slides.md.3
+    #    sed -i "1,4s/.*/$var/" slides.md.3
+    #    cat slides.md.3 >> slides-1.md
+    #fi
+ 
     pandoc slides-1.md -t beamer -o slides.pdf --template ../template/beamer.latex
-    rm slides-1.md slides.md.2
+    rm -f slides-1.md slides.md.2 slides.md.3
 }
 
 function buildSolution(){

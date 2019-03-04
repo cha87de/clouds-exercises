@@ -2,9 +2,9 @@
 sudo -s
 
 apt-get update
-apt-get install -y apache2 php5 php5-mysql
+apt-get install -y apache2 php php-mysql php-mbstring php-xml libapache2-mod-php
 
-service apache2 restart
+systemctl restart apache2
 
 cd /var/www/html
 wget -O mediawiki.tar.gz https://releases.wikimedia.org/mediawiki/1.28/mediawiki-1.28.2.tar.gz

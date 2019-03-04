@@ -23,11 +23,11 @@ data "template_file" "init_loadbalancer" {
 # create first mediawiki instance
 resource "openstack_compute_instance_v2" "mediawiki-1" {
   name            = "mediawiki-1"
-  image_name      = "Ubuntu Server 14.04.2 AMD64 LTS"
-  flavor_name     = "small"
-  key_pair        = "YOUR_KEYPAIR_NAME"
+  image_name      = "${local.image}"
+  flavor_name     = "${local.small_flavour}"
+  key_pair        = "${local.keypair}"
   security_groups = ["default"]
-  region          = "RegionOne"
+  region          = "${local.region}"
 
   network {
     uuid = "${openstack_networking_network_v2.private-net.id}"
@@ -39,11 +39,11 @@ resource "openstack_compute_instance_v2" "mediawiki-1" {
 # create database server
 resource "openstack_compute_instance_v2" "database" {
   name            = "database"
-  image_name      = "ubuntu-1604"
-  flavor_name     = "small"
-  key_pair        = "YOUR_KEYPAIR_NAME"
+  image_name      = "${local.image}"
+  flavor_name     = "${local.small_flavour}"
+  key_pair        = "${local.keypair}"
   security_groups = ["default"]
-  region          = "RegionOne"
+  region          = "${local.region}"
 
   network {
     uuid = "${openstack_networking_network_v2.private-net.id}"
@@ -55,11 +55,11 @@ resource "openstack_compute_instance_v2" "database" {
 # create loadbalancer
 resource "openstack_compute_instance_v2" "loadbalancer" {
   name            = "loadbalancer"
-  image_name      = "ubuntu-1604"
-  flavor_name     = "small"
-  key_pair        = "YOUR_KEYPAIR_NAME"
+  image_name      = "${local.image}"
+  flavor_name     = "${local.small_flavour}"
+  key_pair        = "${local.keypair}"
   security_groups = ["default"]
-  region          = "RegionOne"
+  region          = "${local.region}"
 
   network {
     uuid = "${openstack_networking_network_v2.private-net.id}"
@@ -70,15 +70,15 @@ resource "openstack_compute_instance_v2" "loadbalancer" {
 
 # create floating ip for loadbalancer
 resource "openstack_networking_floatingip_v2" "fip_loadbalancer" {
-  pool   = "extnet"
-  region = "RegionOne"
+  pool   = "${local.extnet_name}"
+  region = "${local.region}"
 }
 
 # attach floating ip to loadbalancer vm
 resource "openstack_compute_floatingip_associate_v2" "fip_loadbalancer" {
   floating_ip = "${openstack_networking_floatingip_v2.fip_loadbalancer.address}"
   instance_id = "${openstack_compute_instance_v2.loadbalancer.id}"
-  region      = "RegionOne"
+  region      = "${local.region}"
 }
 
 # print floating ip of loadbalancer to user

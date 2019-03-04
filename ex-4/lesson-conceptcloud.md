@@ -18,6 +18,22 @@ Read the document, especially focus on the characteristics.
 
  - What is the difference between scalability and elasticity?
 
+## Research: Pet vs. Cattle
+
+"The History of Pets vs. Cattle" [1] introduces a new understanding of servers
+and application deployments. Read the blog post to understand the definition and
+differences of the anology of a "Pet" server and "Cattle" servers.
+
+[1] http://cloudscaling.com/blog/cloud-computing/the-history-of-pets-vs-cattle/
+
+## Question: Pet vs. Cattle
+
+ - What is the definition of "Pet" servers, what of "Cattle" servers?
+
+ - What are the benefits / drawbacks of "Cattle"?
+
+ - How are the essential characteristics of Cloud Computing enabling "Cattles"?
+
 ## Research: Infrastructure and Application Deployment
 
 The cloud stack we used so far looks like the following:

@@ -1,5 +1,7 @@
 # Lesson 1: OpenStack Basics
 
+## Introduction
+
 In this lesson, we will introduce OpenStack - the most popular software for
 cloud data centres. But before we start with OpenStack, some basics are necessary.
 

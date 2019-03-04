@@ -65,7 +65,7 @@ The random behaviour experienced is caused by the fact that both wiki instances 
 We will have to replace the individual mariadb databases by a commonly used mariadb database on an own virtual machine.
 
 ## Task: Extract database into separate vm
-Set-up a new virtual machine named "database" from an ubuntu 14.04 image (the old one to be consistent with main_server). Configure key, network, and the like just as before.
+Set-up a new virtual machine named "database" from an ubuntu 16.04 image (the old one to be consistent with main_server). Configure key, network, and the like just as before.
 In addition, add a security rule that allows access to the mariadb port (3306). 
 You may want to add a floating IP to access the new vm directly, or you can use the load balancer vm and ssh hopping.
 
@@ -78,7 +78,7 @@ sudo apt-get install mariadb-server
 ```
 
 Before we can export the database from your existing mediawiki vm and import it to the new one, don't forget to add the wikimedia user, database and permissions.
-For a step-by-step guide, please have a look at exercise 1. Since we will connect to the database from a remote host later on, add
+For a step-by-step guide, please have a look at exercise 1, "Task: Setup Database". Since we will connect to the database from a remote host later on, add
 additionally the following permissions: 
 ```
 GRANT ALL PRIVILEGES ON wikidb.* TO 'wikiuser'@'%' IDENTIFIED BY 'password';
@@ -93,7 +93,7 @@ Use your favourite editor to open file /etc/mysql/my.cnf as sudo and change the 
 bind-address = '<database vm private ip>'
 ```
 
-To apply the change in the configuration file, restart mariadb with `sudo service mysql restart`.
+To apply the change in the configuration file, restart mariadb with `sudo systemctl restart mysql`.
 
 Ensure that it is possible to connect to the database over the network with your new user. From one of the mediawiki VMs, try the following:
 ```
