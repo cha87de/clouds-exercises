@@ -1,8 +1,8 @@
 provider "openstack" {
   // Get the user, tenant and auth_url from "Project > API Access > View Credentials"
-  user_name   = "ehx27@uni-ulm.de"
-  tenant_name = "Projekt_ehx27@uni-ulm.de" // called "Project Name" in Dashboard
-  auth_url    = "https://idm01.bw-cloud.org:5000"
+  user_name   = ""
+  tenant_name = "" // called "Project Name" in Dashboard
+  auth_url    = ""
 
   // either place your password here or use the environment variable OS_PASSWORD
   //password    = "" 
@@ -13,7 +13,7 @@ provider "openstack" {
 
 locals {
   // Provide the KeyPair Name you created in OpenStack
-  keypair = "christopher-uulm"
+  keypair = ""
 
   // don't touch the next values
   region = "Ulm"
