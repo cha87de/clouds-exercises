@@ -12,7 +12,7 @@ images of Docker Hub.
 
 Create a new virtual machine with Ubuntu 16.04 and install Docker (or use the
 Docker VM from lesson 1). Make sure to allow incoming tcp access to port 80.
-Download and extract the dockerfiles.zip file from Moodle and copy it into your
+Download and extract the dockerfiles.zip file and copy it into your
 virtual machine. Inside the extracted folder, you find four folders, one for
 each component. Most sub folders contain a file called `Dockerfile`, and some
 other files like configuration files or the database dump. Before we continue,
