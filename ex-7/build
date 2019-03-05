@@ -1,7 +1,8 @@
 #!/bin/bash
 source ../build
 
-EXERCISE_FILES="lesson-kubernetes.md lesson-reliability_availability.md"
+#EXERCISE_FILES="lesson-kubernetes.md lesson-reliability_availability.md"
+EXERCISE_FILES="lesson-reliability_availability.md"
 EXTRA_ARTIFACTS="" # excluding: exercise.pdf, solution.pdf
 
 buildExercise

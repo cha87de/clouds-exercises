@@ -4,33 +4,9 @@ subtitle: "Solution for Exercise 7"
 ---
 # Answers to questions
 
-## Lesson 1: Container Orchestration with Kubernetes
+## Lesson 1: Concept of Reliability and Availability
 
-### Questions: Kubernetes
-
-*What Featuers does Kubernetes provide?*
-
- * Automatic binpacking
- * Self-healing
- * Horizontal scaling
- * Service discovery and load balancing
- * Automated rollouts and rollbacks
- * Secret and configuration management
- * Storage orchestration
- * Batch execution
-
-*Where in our Cloud Stack do you place Kubernetes?*
-
-  | Cloud Stack | Example | Deployment Tool | 
-  | --- | --- | --- |
-  | **Application Component** | Mediawiki | Dockerfile/Bash |
-  | **Containers** | Docker | Kubernetes |
-  | **Virtual Resource** | Instance m1.small | - |
-  | **Cloud Platform** | OpenStack | - |
-
-## Lesson 2: Concept of Reliability and Availability
-
-## Questions: Consistency Guarantees
+### Questions: Consistency Guarantees
 
 *What is ACID? What is eventual consistency?*
 
@@ -56,7 +32,7 @@ will rather choose availability and tolerate partitioning instead of consistency
  * AP: social media content where eventual consistency is enough
  * CP: huge big data applications where single parts can fail but failing the whole would be too costly
 
-## Questions: Distributed Database Systems
+### Questions: Distributed Database Systems
 
 *What is the difference between replication and sharding/partitioning?*
 
