@@ -5,7 +5,7 @@ provider "openstack" {
   auth_url    = ""
 
   // either place your password here or use the environment variable OS_PASSWORD
-  //password    = "" 
+  password    = ""
 
   // don't touch the next values
   domain_name = "default"
@@ -16,10 +16,10 @@ locals {
   keypair = ""
 
   // don't touch the next values
-  region = "Ulm"
+  region = "Freiburg"
   image = "Ubuntu 16.04"
-  extnet_id = "861f7f5a-60de-4be9-ba70-6802a706cc94"
-  extnet_name = "routed-ulm"
+  extnet_id = "f76e9bc0-abbc-44ef-a9fc-7fa388d4c677"
+  extnet_name = "public-extended"
   small_flavour = "m1.small"
 
 }

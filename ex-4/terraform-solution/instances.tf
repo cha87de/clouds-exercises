@@ -102,7 +102,7 @@ resource "openstack_compute_instance_v2" "loadbalancer" {
   image_name      = "${local.image}"
   flavor_name     = "${local.small_flavour}"
   key_pair        = "${local.keypair}"
-  security_groups = ["default"]
+  security_groups = ["default", "web"]
   region          = "${local.region}"
 
   network {
@@ -118,7 +118,7 @@ resource "openstack_compute_instance_v2" "monitoring" {
   image_name      = "${local.image}"
   flavor_name     = "${local.small_flavour}"
   key_pair        = "${local.keypair}"
-  security_groups = ["default"]
+  security_groups = ["default", "monitoring"]
   region          = "${local.region}"
 
   network {
