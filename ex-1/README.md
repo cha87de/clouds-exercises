@@ -11,7 +11,7 @@ This exercise focuses on the basics of Infrastructure as a Service Cloud Computi
 ## Lessons
 
  1. [OpenStack Basics](lesson-openstack.md)
- 2. [First Steps with OpenStack](lesson-omistack.md)
+ 2. [First Steps with OpenStack](lesson-openstack.md)
  2. [Mediawiki Installation](lesson-mediawiki.md)
 
 [Exercise as PDF](exercise.pdf)
