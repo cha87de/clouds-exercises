@@ -6,7 +6,7 @@ In this practical hands-on you will learn how to work with Cloud computing from 
 
 |  | Title | Summary |
 |---|---|---|
-| 0  | [Introduciton](ex-0/README.md)				| Introduction & Motivation of this course |
+| 0  | [Introduction](ex-0/README.md)				| Introduction & Motivation of this course |
 | 1  | [OpenStack basics](ex-1/README.md)				| Learn how to start VMs in OpenStack, install MediaWiki application  |
 | 2  | [Monitoring and Vertical Scaling](ex-2/README.md)	| Add InfluxData monitoring stack, stress the MediaWiki application, vertically scale the MediaWiki vm  |
 | 3  | [Horizontal scaling and load balancing](ex-3/README.md)		| Extend OpenStack knowledge (networking), horizontal scaling with Nginx as load balancer |
