@@ -84,7 +84,7 @@
 
       
 
-      \node[anchor=west] at (0.2cm,\paperheight-0.8cm) {\includegraphics[width=0.4\paperwidth]{../template/slides-sublogo}};
+      %\node[anchor=west] at (0.2cm,\paperheight-0.8cm) {\includegraphics[width=0.4\paperwidth]{../template/slides-sublogo}};
 
       \node[anchor=east] at (\paperwidth-0.2cm,\paperheight-0.8cm) {\includegraphics[width=0.4\paperwidth]{../template/slides-logo}};
       \node[anchor=east] at (\paperwidth+0.2cm,\paperheight-3.4cm) {\includegraphics[width=1.1\paperwidth]{../template/slides-title}};

@@ -1,5 +1,5 @@
 ---
-date: SummerSchool 2019, Curitiba
+date: Summer Semester 2019
 subtitle: "Exercise 2: Monitoring and Vertical Scaling"
 ---
 # Exercise 2: Monitoring and Vertical Scaling

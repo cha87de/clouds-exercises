@@ -1,5 +1,5 @@
 ---
-date: SummerSchool 2019, Curitiba
+date: Summer Semester 2019
 subtitle: "Course Overview"
 ---
 

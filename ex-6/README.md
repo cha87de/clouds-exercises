@@ -1,5 +1,5 @@
 ---
-date: SummerSchool 2019, Curitiba
+date: Summer Semester 2019
 subtitle: "Exercise 6: Container Orchestration 1"
 ---
 # Exercise 6: Container Orchestration 1

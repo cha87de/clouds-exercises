@@ -1,5 +1,5 @@
 ---
-date: SummerSchool 2019, Curitiba
+date: Summer Semester 2019
 subtitle: "Exercise 3: Scaling and Load Balancing"
 ---
 # Exercise 3: Scaling and Load Balancing
