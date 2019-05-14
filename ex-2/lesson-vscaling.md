@@ -24,7 +24,7 @@ Remove the first snapshot from exercise 1, since it has no monitoring installed.
 
 To vertically scale your mediawiki setup, you can either use the "Resize Instance" option and change the flavour of the existing instance. Or you can recreate the instance from the snapshot. To resize, select the instance's menu, select "Resize Instance" and select the **new flavor medium**. Please note, that you have to confirm the resize action twice.
 
-To recreate (e.g. if resize does not work), after the snapshot finished, delete your main_server instance with your mediawiki application, and launch a new instance. In the **source tab**, select in "Select Boot Source" the option "Instance Snapshot", and then pick **your snapshot**. Make sure to select "No" in "Create New Volume". Select **flavor medium**. If you need to attach a floating IP, Reassign the previously used one.
+To recreate (e.g. if resize does not work like in Omistack), after the snapshot finished, delete your main_server instance with your mediawiki application, and launch a new instance. In the **source tab**, select in "Select Boot Source" the option "Instance Snapshot", and then pick **your snapshot**. Make sure to select "No" in "Create New Volume". Select **flavor medium**. If you need to attach a floating IP, Reassign the previously used one.
 
 Next, validate that mediawiki and the monitoring data are still working properly.
 

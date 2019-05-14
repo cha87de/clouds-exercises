@@ -48,7 +48,11 @@ want to access and hence use your new instance via OpenStack's virtual network i
 In the OpenStack dashboard, click the "Network" item in the menu, then select
 "Networks". You should see at least one entry in the networks table. The networks listed depend on the OpenStack deployment and may differ.
 
-Virtual Networks will be studied in more detail in exercise 3. If you miss the network, please inform your instructor.
+Virtual Networks will be studied in more detail in exercise 3. If you miss the network, please inform your instructor. 
+
+If you see only an external network (*e.g. working with Omistack*), then you need to create a private network first:
+- Press the "Create Network" button, provide the name "private", and in the "Subnet" tab state as "Network Address" e.g. 192.168.1.0/24, then press next and finish.
+- Go to "Routers", press "Create Router" button, provide the name "private-router", select a external network and press the button to finish. The router needs to be linked to your private network: select the router by clicking on its name, then select "interfaces", press the button "Add Interface", select your own network named "private" and press submit.
 
 ## Task: Launch your first Instance
 
@@ -58,7 +62,7 @@ one, by launching an Ubuntu Server. To go "Compute", then "Instances". Then clic
 In the "Launch Instance" popup, in the "Details" step:
 
  - Name your instance e.g. "main_server"
- - Select "nova" as availability zone
+ - Select "nova" as availability zone (or "blade" of no nova exists)
 
 Continue to the "Source" step:
 
