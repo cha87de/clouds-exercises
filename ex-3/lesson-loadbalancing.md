@@ -87,7 +87,7 @@ where `%` stands for any host.
 
 Per default, mariadb is configured to listen only to connections from the local host. This has to be changed, as multiple
 wikimedia instances will access the database over the network. 
-Use your favourite editor to open file /etc/mysql/my.cnf as sudo and change the bind address:
+Use your favourite editor to open file /etc/mysql/mariadb.conf.d/50-server.cnf as sudo and change the bind address:
 
 ```
 bind-address = '<database vm private ip>'
