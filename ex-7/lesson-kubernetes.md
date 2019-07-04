@@ -95,8 +95,7 @@ for Kubernetes, to allow private IP networks for containers across hosts.
 
 ```
 kubectl apply -f \
-http://docs.projectcalico.org/v2.3/getting-started/kubernetes/installation
-/hosted/kubeadm/1.6/calico.yaml
+http://docs.projectcalico.org/v2.3/getting-started/kubernetes/installation/hosted/kubeadm/1.6/calico.yaml
 ```
 
 Kubernetes defines `pods`: a component which is executed by starting one or many containers
