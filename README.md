@@ -14,3 +14,4 @@ In this practical hands-on you will learn how to work with Cloud computing from 
 | 5  | [Containers](ex-5/README.md)					| Learn about Containers (LXC, Docker) and how to deploy applications with Docker |
 | 6  | [Container Orchestration 1](ex-6/README.md)			| Learn about container orchestration with Docker Swarm and Rancher | 
 | 7  | [Kubernetes; Reliability & Availability](ex-7/README.md)			| Containers with Kubernetes, Reliability & Availability of database systems |
+| 8  | [Platform as a Service with Heroku and OpenShift](ex-8/README.md)			| Platform as a Service with Heroku and OpenShift |

@@ -1,0 +1,15 @@
+#!/bin/bash
+set -x
+
+# install required software
+yum install -y wget vim git net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct  NetworkManager
+yum update -y
+systemctl enable NetworkManager
+systemctl start NetworkManager
+
+# install docker
+yum install -y docker
+sed -i '/OPTIONS=.*/c\OPTIONS="--selinux-enabled --insecure-registry 172.30.0.0/16"' \
+/etc/sysconfig/docker
+systemctl enable docker
+systemctl restart docker

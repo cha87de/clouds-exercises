@@ -1,0 +1,102 @@
+#!/bin/bash
+set -x
+
+# install required software
+yum install -y wget vim git net-tools bind-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct NetworkManager
+yum update -y
+systemctl enable NetworkManager
+systemctl start NetworkManager
+
+## lookup public hostname
+privateIP=$(line=($(ip addr show eth0 | grep "inet ")); echo $${line[1]} | cut -d'/' -f1)
+publicIP=$(curl -s http://169.254.169.254/latest/meta-data/public-ipv4)
+hostname=$(nslookup $publicIP | grep "in-addr.arpa" | cut -d'=' -f2 | tr -d ' '''  | sed s'/.$//')
+echo "found public hostname $hostname"
+publicmaster="https://$${hostname}:8443"
+
+# install ansible from epel
+yum install -y epel-release
+sed -i -e "s/^enabled=1/enabled=0/" /etc/yum.repos.d/epel.repo
+yum -y --enablerepo=epel install ansible pyOpenSSL
+
+# clone openshift-ansible 
+cd /opt/
+git clone https://github.com/openshift/openshift-ansible
+cd /opt/openshift-ansible
+
+# install docker
+yum install -y docker
+sed -i '/OPTIONS=.*/c\OPTIONS="--selinux-enabled --insecure-registry 172.30.0.0/16"' \
+/etc/sysconfig/docker
+systemctl enable docker
+systemctl restart docker
+
+# configure SSH accessability
+echo "-----BEGIN RSA PRIVATE KEY-----
+XYZ....
+.
+.
+.
+-----END RSA PRIVATE KEY-----" > /root/.ssh/id_rsa
+chmod 600 /root/.ssh/id_rsa
+echo "Host *
+   StrictHostKeyChecking no
+   UserKnownHostsFile=/dev/null" > /root/.ssh/config
+
+# configure hosts file
+echo "127.0.0.1 localhost 
+$$privateIP master
+${node1_ip} node1
+${node2_ip} node2
+${node3_ip} node3
+" > /etc/hosts
+
+# wait for nodes ...
+(
+    echo "waiting for nodes ..."
+    for node in node1 node2 node3; do
+        ssh centos@$node sudo chown centos /etc/hosts
+        status=$?
+        while (( $status > 0 )); do
+            echo "node $node not available."
+            sleep 1
+            ssh centos@$node sudo chown centos /etc/hosts
+            status=$?
+        done
+        echo "node $node is now available."
+    done
+    echo "Nodes are online! Let's go on..."
+)
+
+# copy hosts to nodes
+for node in node1 node2 node3; do
+    scp /etc/hosts centos@$node:/etc/hosts
+done
+
+# configure and run ansible
+echo "
+# Create an OSEv3 group that contains the masters and nodes groups
+[OSEv3:children]
+masters
+nodes
+
+# Set variables common for all OSEv3 hosts
+[OSEv3:vars]
+ansible_ssh_user=centos
+ansible_become=true
+
+openshift_deployment_type=origin
+
+openshift_disable_check=memory_availability,disk_availability,docker_storage_driver,docker_storage
+
+[masters]
+master openshift_public_hostname=\"$$hostname\" openshift_public_ip=\"$$publicIP\"  openshift_hostname=\"master\"
+[etcd]
+master openshift_hostname=\"master\"
+[nodes]
+master openshift_node_labels=\"{'region': 'infra','zone': 'default'}\" openshift_schedulable=true openshift_hostname=\"master\" openshift_public_hostname=\"$$hostname\" openshift_public_ip=\"$$publicIP\"
+node1 openshift_node_labels=\"{'region': 'primary', 'zone': 'default'}\" openshift_hostname=\"node1\"
+node2 openshift_node_labels=\"{'region': 'primary', 'zone': 'default'}\" openshift_hostname=\"node2\"
+node3 openshift_node_labels=\"{'region': 'primary', 'zone': 'default'}\" openshift_hostname=\"node3\"
+" > /etc/ansible/hosts
+ansible-playbook /opt/openshift-ansible/playbooks/byo/config.yml

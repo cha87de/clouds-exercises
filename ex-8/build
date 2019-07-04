@@ -1,0 +1,13 @@
+#!/bin/bash
+
+source ../build
+
+EXERCISE_FILES="lesson-concepts.md lesson-openshift.md"
+EXTRA_ARTIFACTS="terraform-openshift.zip" # excluding: exercise.pdf, solution.pdf
+
+buildExercise
+buildSolution
+
+# build zip files
+rm terraform-openshift.zip
+zip -r terraform-openshift.zip terraform-openshift
