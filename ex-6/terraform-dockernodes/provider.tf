@@ -16,10 +16,11 @@ locals {
   keypair = ""
 
   // don't touch the next values
-  region = "Freiburg"
-  image = "Ubuntu 16.04"
-  extnet_id = "f76e9bc0-abbc-44ef-a9fc-7fa388d4c677"
-  extnet_name = "public-extended"
-  small_flavour = "m1.small"
+  region = "RegionOne"
+  image = "ubuntu-1604"
+  extnet_id = "940f32cd-f23f-41f8-9b9e-07fd77cc503a"
+  extnet_name = "extnet"
+  small_flavour = "small"
+
 
 }
