@@ -16,6 +16,9 @@ of this exercise.
 
 1. [Concept of Reliability and Availability](lesson-reliability_availability.md)
 
+2. [Kubernetes](lesson-kubernetes.md)
+
+
 [Exercise as PDF](exercise.pdf)
 
 ## Exercise Solution
