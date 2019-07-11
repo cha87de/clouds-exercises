@@ -1,4 +1,4 @@
-# Lesson 1: Container Orchestration with Kubernetes **(Might be outdated)**
+# Lesson 1: Container Orchestration with Kubernetes
 
 In this lesson, we will install and use Kubernetes, the Container orchestration from Google.
 
