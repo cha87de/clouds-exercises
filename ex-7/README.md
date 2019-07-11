@@ -1,8 +1,8 @@
 ---
 date: Summer Semester 2019
-subtitle: "Exercise 7: Reliability & Availability"
+subtitle: "Exercise 7: Kubernetes; Reliability & Availability"
 ---
-# Exercise 7: Reliability & Availability
+# Exercise 7: Kubernetes; Reliability & Availability
 
 ## Overview
 
